@@ -1,0 +1,32 @@
+{
+  "name": "Hedge & Moon",
+  "short_name": "Hedge & Moon",
+  "description": "A UK herb garden calendar, evidence-checked remedies, recipes for one, a journal and herb stores.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16131c",
+  "theme_color": "#16131c",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

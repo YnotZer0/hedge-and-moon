@@ -1,0 +1,2850 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hedge &amp; Moon</title>
+<meta name="description" content="A UK herb garden calendar, evidence-checked remedies, recipes for one, a journal and herb stores.">
+<meta name="theme-color" content="#16131c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hedge &amp; Moon">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono&family=IM+Fell+English:ital@0;1&family=Karla:wght@400;600;700&display=swap">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+/* Layout: a single-column phone app — sticky header, scrolling page, fixed tab bar.
+   Moonlit herbarium: blackberry-ink night with parchment type, foxglove and brass accents.
+   Day theme is a pale sage herbarium sheet. */
+:root {
+  --bg: #16131c;
+  --surface: #1f1a27;
+  --surface-2: #29233a;
+  --line: #3a3149;
+  --fg: #ede6da;
+  --muted: #a99fb3;
+  --accent: #e0a2c6;
+  --accent-ink: #1b1120;
+  --brass: #d9b56f;
+  --moss: #9cc28f;
+  --good: #8fcf9c;
+  --warn: #e8b85c;
+  --danger: #ec8375;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --stroke-art: rgba(237,230,218,.5);
+  --font-display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Karla", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 14px;
+  --tabbar-h: 64px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #eceee4; --surface: #f8f8f2; --surface-2: #e2e6d8; --line: #cdd2c0;
+    --fg: #261e2c; --muted: #655c6c; --accent: #9b3f76; --accent-ink: #fff7fb;
+    --brass: #8d6a1f; --moss: #3f7a3b; --good: #2f7a45; --warn: #9a6a07; --danger: #b13f30;
+    --shadow: 0 10px 30px rgba(40,30,50,.12); --stroke-art: rgba(38,30,44,.45);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #eceee4; --surface: #f8f8f2; --surface-2: #e2e6d8; --line: #cdd2c0;
+  --fg: #261e2c; --muted: #655c6c; --accent: #9b3f76; --accent-ink: #fff7fb;
+  --brass: #8d6a1f; --moss: #3f7a3b; --good: #2f7a45; --warn: #9a6a07; --danger: #b13f30;
+  --shadow: 0 10px 30px rgba(40,30,50,.12); --stroke-art: rgba(38,30,44,.45);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15.5px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--bg);
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.45rem; }
+h3 { font-size: 1.15rem; }
+p { margin: 0; }
+.latin { font-family: var(--font-display); font-style: italic; color: var(--muted); }
+.label {
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.muted { color: var(--muted); }
+.small { font-size: .86rem; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ---------- shell ---------- */
+.app { max-width: 760px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; }
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  display: flex; align-items: center; gap: 10px;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.brand-name { font-family: var(--font-display); font-size: 1.35rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand-mark { width: 28px; height: 28px; flex: none; }
+.page-title { font-family: var(--font-display); font-size: 1.25rem; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.icon-btn {
+  flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid transparent; background: transparent;
+  display: grid; place-items: center; cursor: pointer; color: var(--fg);
+}
+.icon-btn:hover { background: var(--surface); }
+.icon-btn svg { width: 22px; height: 22px; }
+main {
+  flex: 1;
+  padding-top: 18px;
+  padding-bottom: calc(var(--tabbar-h) + 28px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 22px;
+}
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.tabbar-inner { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); height: var(--tabbar-h); }
+.tab {
+  border: 0; background: transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  color: var(--muted); font-size: .72rem; letter-spacing: .02em;
+}
+.tab svg { width: 24px; height: 24px; }
+.tab[aria-current="page"] { color: var(--accent); }
+
+/* ---------- generic pieces ---------- */
+.section { display: flex; flex-direction: column; gap: 12px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0;
+}
+.card.tap { cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit; }
+.card.tap:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 620px) { .grid2.wide { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.divider { height: 1px; background: var(--line); border: 0; margin: 4px 0; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface-2); color: var(--fg); cursor: pointer; font-weight: 600; font-size: .95rem; text-decoration: none;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 50%, var(--line)); background: transparent; }
+.btn.small { min-height: 36px; padding: 6px 12px; font-size: .85rem; }
+.btn.block { width: 100%; }
+.btn svg { width: 18px; height: 18px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-row > .btn { flex: 1 1 auto; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent; font-size: .84rem; cursor: pointer; white-space: nowrap; color: var(--fg);
+}
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip.static { cursor: default; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chips.scroll { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; margin-inline: -2px; }
+.chips.scroll::-webkit-scrollbar { display: none; }
+
+.ev {
+  display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .68rem;
+  letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; border: 1px solid currentColor; white-space: nowrap;
+}
+.ev::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.ev-good { color: var(--good); }
+.ev-some { color: var(--moss); }
+.ev-limited { color: var(--warn); }
+.ev-folk { color: var(--brass); }
+.ev-none { color: var(--danger); }
+.ev-food { color: var(--muted); }
+
+.callout {
+  border-left: 3px solid var(--warn); background: color-mix(in srgb, var(--warn) 9%, var(--surface));
+  border-radius: 0 10px 10px 0; padding: 12px 14px; font-size: .92rem;
+}
+.callout.danger { border-left-color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); }
+.callout.info { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+.callout strong { display: block; margin-bottom: 2px; }
+
+.list-plain { margin: 0; padding-left: 1.15em; display: flex; flex-direction: column; gap: 6px; }
+ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+ol.steps li { counter-increment: step; display: grid; grid-template-columns: 30px 1fr; gap: 10px; }
+ol.steps li::before {
+  content: counter(step); font-family: var(--font-display); font-size: 1.1rem; color: var(--accent);
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center;
+}
+.ingredients { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.ingredients label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; }
+.ingredients input { margin-top: 4px; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+.ingredients input:checked + span { color: var(--muted); text-decoration: line-through; }
+
+.empty { text-align: center; padding: 28px 16px; color: var(--muted); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.empty svg { width: 72px; height: 72px; opacity: .8; }
+
+/* ---------- forms ---------- */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > span { font-size: .85rem; color: var(--muted); font-weight: 600; }
+.input, select.input, textarea.input {
+  width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--fg); font-size: 16px;
+}
+textarea.input { min-height: 96px; resize: vertical; line-height: 1.5; }
+.input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 12px; padding: 3px; gap: 3px; background: var(--bg); flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; padding: 8px 14px; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .9rem; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--surface-2); color: var(--fg); box-shadow: 0 0 0 1px var(--line); }
+.stars { display: flex; gap: 4px; }
+.stars button { border: 0; background: transparent; cursor: pointer; padding: 4px; color: var(--line); font-size: 1.6rem; line-height: 1; }
+.stars button.on { color: var(--brass); }
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.switch input { width: 46px; height: 28px; accent-color: var(--accent); }
+.photo-preview { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); }
+
+/* ---------- today ---------- */
+.hello h1 { font-size: 2.1rem; }
+.hello .date { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+.sky { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 620px) { .sky.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.moon-card { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: center; }
+.moon-halo { fill: color-mix(in srgb, var(--brass) 10%, transparent); }
+.moon-dark { fill: color-mix(in srgb, var(--fg) 8%, var(--surface)); }
+.moon-lit { fill: var(--brass); }
+.moon-rim { fill: none; stroke: color-mix(in srgb, var(--brass) 55%, transparent); stroke-width: 1; }
+.cycle-ring { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: center; }
+.ring-track { fill: none; stroke: var(--surface-2); stroke-width: 9; }
+.ring-seg { fill: none; stroke-width: 9; }
+.ring-dot { fill: var(--fg); stroke: var(--surface); stroke-width: 3; }
+.ring-text { font-family: var(--font-display); fill: var(--fg); font-size: 22px; }
+.ring-sub { font-family: var(--font-mono); fill: var(--muted); font-size: 8px; letter-spacing: .1em; }
+.tip-card {
+  background: radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--accent) 14%, var(--surface)) 0%, var(--surface) 60%);
+}
+.tip-text { font-family: var(--font-display); font-size: 1.22rem; line-height: 1.35; }
+.task-group { display: grid; grid-template-columns: 112px 1fr; gap: 10px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); }
+.task-group:first-of-type { border-top: 0; padding-top: 2px; }
+@media (max-width: 400px) { .task-group { grid-template-columns: 1fr; gap: 6px; } }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.c-si { background: #b79be0; } .c-so { background: #7fbf86; } .c-pr { background: #e0a46d; } .c-po { background: #6fb4c8; } .c-hv { background: #e5c35a; }
+.reminder { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); cursor: pointer; background: none; border-left: 0; border-right: 0; border-bottom: 0; width: 100%; text-align: left; color: inherit; }
+.reminder:first-child { border-top: 0; }
+.pill { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); }
+.pill.soon { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+.pill.past { background: color-mix(in srgb, var(--danger) 18%, transparent); color: var(--danger); }
+.pill.info { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+.quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.quick .btn { flex-direction: column; min-height: 76px; font-size: .82rem; gap: 6px; text-align: center; }
+.quick .btn svg { width: 24px; height: 24px; color: var(--accent); }
+
+/* ---------- herbs ---------- */
+.herb-card { padding: 10px 10px 14px; gap: 4px; align-items: stretch; }
+.herb-card .art-wrap { aspect-ratio: 1 / 1.05; max-width: 100%; border-radius: 10px; background: var(--surface-2); display: grid; place-items: center; overflow: hidden; }
+.herb-card .art-wrap svg { width: 88%; height: 88%; }
+.herb-card .art-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.herb-card h3 { font-size: 1.12rem; margin-top: 6px; }
+.herb-card .latin { font-size: .82rem; line-height: 1.3; }
+.herb-card .now { font-size: .76rem; color: var(--muted); display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.herb-art .stem { stroke: var(--stroke-art); stroke-width: 1.2; }
+.herb-art .blade { stroke-width: 2.4; stroke-linecap: round; }
+.herb-art .leaf path, .herb-art .leaf circle { stroke: var(--stroke-art); stroke-width: .5; }
+.herb-art .vein { stroke: var(--stroke-art); stroke-width: .45; }
+.herb-art .frond { stroke-width: 1; fill: none; }
+.hero-art { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.hero-art .plate {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); aspect-ratio: 4 / 3; max-width: 100%;
+  display: grid; place-items: center; overflow: hidden; position: relative;
+}
+.hero-art .plate svg { height: 92%; }
+.hero-art .plate img { width: 100%; height: 100%; object-fit: cover; }
+.plate-toggle { position: absolute; right: 10px; bottom: 10px; }
+.specimen {
+  border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; background: var(--surface);
+  font-family: var(--font-mono); font-size: .78rem; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px;
+  position: relative;
+}
+.specimen::before { content: attr(data-label); text-transform: uppercase; position: absolute; top: -9px; left: 12px; background: var(--bg); padding: 0 6px; font-size: .62rem; letter-spacing: .16em; color: var(--muted); }
+.specimen dt { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; padding-top: 2px; }
+.specimen dd { margin: 0; color: var(--fg); }
+.calstrip-wrap { overflow-x: auto; }
+.calstrip { display: grid; grid-template-columns: 110px repeat(12, minmax(20px, 1fr)); gap: 3px; align-items: center; min-width: 380px; font-size: .78rem; }
+.calstrip .m { text-align: center; font-family: var(--font-mono); font-size: .62rem; color: var(--muted); }
+.calstrip .m.now { color: var(--accent); font-weight: 700; }
+.calstrip .lbl { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.calstrip .cell { height: 14px; border-radius: 3px; background: var(--surface-2); }
+.calstrip .cell.now { box-shadow: 0 0 0 1px var(--accent); }
+.use-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; border-top: 1px solid var(--line); }
+.use-item:first-child { border-top: 0; padding-top: 0; }
+.yeartable-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table.year { border-collapse: collapse; min-width: 640px; width: 100%; font-size: .8rem; }
+table.year th, table.year td { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: center; }
+table.year th:first-child, table.year td:first-child { text-align: left; padding-left: 12px; position: sticky; left: 0; background: var(--surface); white-space: nowrap; }
+table.year th { font-family: var(--font-mono); font-weight: 400; font-size: .64rem; color: var(--muted); }
+table.year th.now { color: var(--accent); }
+table.year td.now { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.dots { display: inline-flex; gap: 2px; flex-wrap: wrap; justify-content: center; max-width: 24px; }
+.dots .dot { width: 7px; height: 7px; }
+
+/* ---------- make ---------- */
+.make-card { gap: 8px; }
+.make-card h3 { font-size: 1.12rem; }
+.meta-line { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .8rem; color: var(--muted); }
+.cat-mark { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+
+/* ---------- journal ---------- */
+.entry { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.entry .thumb { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; border: 1px solid var(--line); }
+.entry-date { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.mini-moon { width: 16px; height: 16px; vertical-align: -3px; }
+.rating { color: var(--brass); letter-spacing: 2px; }
+.prose { display: flex; flex-direction: column; gap: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---------- truths ---------- */
+.myth { gap: 10px; }
+.myth .claim { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.3; }
+.stamp {
+  align-self: flex-start; font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--danger); border: 1.5px solid var(--danger); padding: 3px 8px; border-radius: 4px; transform: rotate(-2deg);
+}
+.instead { font-size: .92rem; padding-top: 8px; border-top: 1px dashed var(--line); }
+.instead b { color: var(--moss); }
+.source-link { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--line); }
+.source-link:first-child { border-top: 0; }
+
+/* ---------- overlays ---------- */
+.scrim { position: fixed; inset: 0; background: rgba(10,6,14,.55); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+.sheet {
+  width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 20px 20px 0 0; padding: 20px max(18px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px));
+  display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow);
+  animation: rise .22s ease-out;
+}
+@keyframes rise { from { transform: translateY(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+.toast-zone {
+  position: fixed; left: 0; right: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none;
+  bottom: calc(var(--tabbar-h) + 12px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.toast {
+  pointer-events: auto; max-width: 520px; width: 100%; background: var(--surface-2); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow); display: flex; gap: 12px; align-items: flex-start; animation: rise .22s ease-out;
+}
+.toast .tip-text { font-size: 1.02rem; }
+.toast button { flex: none; }
+.banner { background: color-mix(in srgb, var(--warn) 14%, var(--surface)); border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line)); border-radius: 12px; padding: 10px 12px; font-size: .88rem; }
+textarea.code { font-family: var(--font-mono); font-size: 12px; min-height: 140px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+</style>
+</head>
+<body>
+<div id="app" class="app"></div><div id="toasts" class="toast-zone" aria-live="polite"></div>
+<script>
+/* ============================================================
+   HEDGE & MOON — content
+   Evidence levels used throughout:
+   good    = consistent trials or official UK guidance (NHS/NICE)
+   some    = several small trials, results mixed but positive
+   limited = one or two small studies, lab or animal work
+   folk    = traditional use only, no real human evidence
+   none    = claim tested or checked and not supported
+   food    = food, flavour or comfort; no health claim made
+   ============================================================ */
+
+const EVIDENCE = {
+  good:    { label: "Good evidence",     short: "Good",    note: "Consistent human trials or official UK guidance." },
+  some:    { label: "Some evidence",     short: "Some",    note: "Several small trials. Promising, not proven." },
+  limited: { label: "Limited evidence",  short: "Limited", note: "One or two small studies, or lab/animal work only." },
+  folk:    { label: "Traditional use",   short: "Folk",    note: "Used for generations. Not tested properly in people." },
+  none:    { label: "Not supported",     short: "Myth",    note: "Checked and not supported, or no plausible way it could work." },
+  food:    { label: "Food & comfort",    short: "Food",    note: "Made for flavour, nourishment and pleasure. No health claim." }
+};
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const CAL_KEYS = [
+  { key: "si", label: "Sow indoors",      verb: "Sow indoors" },
+  { key: "so", label: "Sow outside",      verb: "Sow outside" },
+  { key: "pr", label: "Cuttings & dividing", verb: "Take cuttings or divide" },
+  { key: "po", label: "Plant out",        verb: "Plant out" },
+  { key: "hv", label: "Harvest",          verb: "Harvest" }
+];
+
+const SUN = {
+  full:  { label: "Full sun",     note: "6+ hours of direct sun a day" },
+  part:  { label: "Part shade",   note: "3–6 hours of sun, or bright dappled light" },
+  shade: { label: "Shade",        note: "Under 3 hours of direct sun" }
+};
+
+const ALL = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+/* art: leaf = needle | oval | tiny | serrated | feathery | lobed | grass | round | bay
+        flower = spike | globe | umbel | daisy | trumpet | none
+        fc = flower colour, lc = leaf colour */
+const HERBS = [
+  {
+    id: "rosemary", name: "Rosemary", latin: "Salvia rosmarinus", family: "Mint family",
+    type: "Evergreen shrub", hardy: "Hardy to about −10°C if roots stay dry",
+    sun: ["full"], container: true,
+    cal: { si: [3,4], pr: [5,6,7,8], po: [5,6], hv: ALL },
+    grow: "Seed is slow and patchy, so most people start from a plant or a cutting. Give it the sunniest, best-drained spot you have. Rosemary dies from wet roots far more often than from cold.",
+    propagate: "Snip 10cm non-flowering tips in late spring or summer. Strip the lower leaves, push them into gritty compost and cover with a clear bag. Roots form in 4–8 weeks.",
+    winter: "Evergreen, so you can pick a little all winter. Raise pots on feet so they don't sit in water.",
+    uses: [
+      { t: "Roast vegetables, beans, lamb, focaccia, herb salt", ev: "food" },
+      { t: "Hair rinse", ev: "limited", n: "One small trial found rosemary OIL comparable to a weak hair-loss treatment. A rinse is pleasant but untested." },
+      { t: "Memory and focus", ev: "limited", n: "Small studies found people did slightly better on memory tasks while smelling rosemary. Drinking it hasn't been shown to do anything." }
+    ],
+    safety: "Cooking amounts are safe. Never swallow rosemary essential oil. Avoid concentrated oil if pregnant or if you have epilepsy.",
+    makes: ["k-salt","b-rinse","m-beans","h-simmer","k-dry"],
+    art: { leaf: "needle", flower: "globe", fc: "#9db4e8", lc: "#6f8f78" }
+  },
+  {
+    id: "sage", name: "Sage", latin: "Salvia officinalis", family: "Mint family",
+    type: "Evergreen sub-shrub", hardy: "Fully hardy",
+    sun: ["full"], container: true,
+    cal: { si: [3,4], pr: [5,6], po: [5], hv: ALL },
+    grow: "Sun and sharp drainage. Pick little and often to keep it bushy. Plants get woody and tired after 4–5 years, so root a few cuttings to replace them.",
+    propagate: "Softwood cuttings in late spring root easily in gritty compost. You can also layer a low stem: pin it to the soil and it roots where it touches.",
+    winter: "Leaves stay on all winter. Pick lightly; flavour is stronger in the cold.",
+    uses: [
+      { t: "Brown-butter pasta and gnocchi, stuffing, squash, beans", ev: "food" },
+      { t: "Sore throat gargle", ev: "limited", n: "One small trial of a sage throat spray showed some relief. A home gargle is untested but low risk." },
+      { t: "Menopausal hot flushes", ev: "limited", n: "A few small studies of sage extracts. Not relevant at food amounts." }
+    ],
+    safety: "Sage contains thujone. Cooking and the odd cup of tea are fine. Avoid large amounts, extracts and the oil in pregnancy, while breastfeeding (it's traditionally used to reduce milk supply), or with epilepsy.",
+    makes: ["m-gnocchi","t-gargle","k-dry","k-salt"],
+    art: { leaf: "oval", flower: "spike", fc: "#8e7cc3", lc: "#9aa894" }
+  },
+  {
+    id: "thyme", name: "Thyme", latin: "Thymus vulgaris", family: "Mint family",
+    type: "Evergreen sub-shrub", hardy: "Fully hardy in free-draining soil",
+    sun: ["full"], container: true,
+    cal: { si: [3,4,5], pr: [5,6,7], po: [5,6], hv: ALL },
+    grow: "Loves poor, gritty soil and full sun, so it's perfect for pots, gravel and cracks in paving. Trim after flowering to stop it going leggy.",
+    propagate: "Take short cuttings in early summer, or dig up a rooted side-piece and pot it on.",
+    winter: "Evergreen. Pick sparingly in winter while growth is slow.",
+    uses: [
+      { t: "Traybakes, soups, stews, roast veg, lemon chicken", ev: "food" },
+      { t: "Cough and chest comfort", ev: "folk", n: "A long tradition, and licensed thyme-and-ivy syrups exist in Europe. Home thyme tea itself isn't well studied." }
+    ],
+    safety: "Safe as food. Don't swallow thyme essential oil.",
+    makes: ["m-chicken","t-thyme","k-dry","k-vinegar"],
+    art: { leaf: "tiny", flower: "globe", fc: "#d9a3c7", lc: "#7f9474" }
+  },
+  {
+    id: "mint", name: "Mint", latin: "Mentha spicata · M. × piperita", family: "Mint family",
+    type: "Herbaceous perennial (dies back in winter)", hardy: "Fully hardy",
+    sun: ["full","part"], container: true,
+    cal: { si: [3,4], pr: [3,4,5,6,7,8,9,10], po: [4,5], hv: [4,5,6,7,8,9,10] },
+    grow: "Grow it in a pot, even if the pot sits in a border. Mint spreads by runners and will take over a bed. Keep it moist; it copes with part shade.",
+    propagate: "Pull off a piece with roots and pot it. Or put a 10cm stem in a glass of water on the windowsill; roots appear in about a week.",
+    winter: "Dies back outside. In September, pot a few roots for the kitchen windowsill to keep picking through winter.",
+    uses: [
+      { t: "Tea, salads, peas, yoghurt sauces, salsa verde", ev: "food" },
+      { t: "Irritable bowel symptoms", ev: "good", n: "This is for enteric-coated peppermint OIL capsules from a pharmacy, not mint tea or mint water." },
+      { t: "Indigestion and bloating", ev: "folk", n: "Mint tea after a meal is a long tradition. It's lightly studied." }
+    ],
+    safety: "Peppermint can make heartburn and reflux worse. Never put peppermint oil on or near a baby's or young child's face.",
+    makes: ["t-mint","t-cold","m-pea","m-salsa"],
+    art: { leaf: "serrated", flower: "spike", fc: "#c4a7e0", lc: "#5e9a6a" }
+  },
+  {
+    id: "lemonbalm", name: "Lemon balm", latin: "Melissa officinalis", family: "Mint family",
+    type: "Herbaceous perennial", hardy: "Fully hardy",
+    sun: ["full","part"], container: true,
+    cal: { si: [3,4], so: [5], pr: [3,4,9,10], po: [5], hv: [5,6,7,8,9] },
+    grow: "Easy and forgiving in sun or light shade. Cut it back hard in midsummer for fresh leaves, and before it seeds unless you want it everywhere.",
+    propagate: "Divide clumps in spring or autumn. It also self-seeds freely.",
+    winter: "Dies back to a low clump. Leave it; it returns in spring.",
+    uses: [
+      { t: "Bedtime tea, fruit salads, iced drinks", ev: "food" },
+      { t: "Calm and sleep", ev: "limited", n: "Small trials, often of lemon balm mixed with other herbs, suggest a mild calming effect." }
+    ],
+    safety: "Usually well tolerated. Ask a pharmacist first if you take thyroid medicine or sedatives.",
+    makes: ["t-sleep","t-cold"],
+    art: { leaf: "serrated", flower: "none", fc: "#f2efe4", lc: "#8db86b" }
+  },
+  {
+    id: "chamomile", name: "Chamomile", latin: "Matricaria chamomilla (German)", family: "Daisy family",
+    type: "Hardy annual", hardy: "Hardy; self-seeds",
+    sun: ["full"], container: true,
+    cal: { si: [3], so: [3,4,5,9], hv: [6,7,8] },
+    grow: "Scatter seed on the surface and press it in without covering; it needs light to germinate. Pick flowers when fully open, every few days.",
+    propagate: "Grows from seed only. It usually self-seeds for next year.",
+    winter: "An annual. Autumn sowings overwinter as small plants and flower early.",
+    uses: [
+      { t: "Wind-down tea, bath bags, hair rinse for fair hair", ev: "food" },
+      { t: "Sleep and mild anxiety", ev: "limited", n: "Small trials, mostly of chamomile extract capsules, show modest effects. The tea is a good ritual; don't expect a sedative." }
+    ],
+    safety: "Avoid if you're allergic to the daisy family (ragweed, chrysanthemums, marigolds). Check with a pharmacist if you take blood thinners.",
+    makes: ["t-sleep","b-bath","b-shampoo"],
+    art: { leaf: "feathery", flower: "daisy", fc: "#ffffff", lc: "#7fa36a" }
+  },
+  {
+    id: "calendula", name: "Calendula (pot marigold)", latin: "Calendula officinalis", family: "Daisy family",
+    type: "Hardy annual", hardy: "Hardy; flowers into the first frosts",
+    sun: ["full","part"], container: true,
+    cal: { si: [2,3], so: [3,4,5,9], hv: [6,7,8,9,10] },
+    grow: "One of the easiest flowers to grow. Pick or deadhead flowers constantly and it keeps blooming until the frosts.",
+    propagate: "Grows from seed only. Save the curled seeds from dry heads.",
+    winter: "An annual. Seed sown in September gives early flowers next year.",
+    uses: [
+      { t: "Edible petals for salads, rice and butter", ev: "food" },
+      { t: "Infused oil and balm for dry skin", ev: "limited", n: "Used for centuries on minor skin problems. Human studies are few and small." }
+    ],
+    safety: "Daisy-family allergy risk. Patch-test skin products on your inner arm for 24 hours first. Don't confuse it with French marigolds (Tagetes), which are not the same plant.",
+    makes: ["b-oil","b-balm","b-soap","b-bath"],
+    art: { leaf: "oval", flower: "daisy", fc: "#f39a2b", lc: "#86a35f" }
+  },
+  {
+    id: "lavender", name: "English lavender", latin: "Lavandula angustifolia", family: "Mint family",
+    type: "Evergreen shrub", hardy: "Fully hardy in dry soil",
+    sun: ["full"], container: true,
+    cal: { si: [2,3,4], pr: [5,6,7,8], po: [4,5], hv: [6,7,8] },
+    grow: "Full sun and poor, free-draining soil. After flowering, trim off the flower stalks and an inch of leaves, but never cut into bare old wood; it won't regrow.",
+    propagate: "Seeds germinate better after 3–4 weeks in the fridge. Cuttings in summer are faster and true to the parent.",
+    winter: "Evergreen grey foliage. Keep pots out of winter wet.",
+    uses: [
+      { t: "Sachets, bath bags, soap; a few flowers in shortbread", ev: "food" },
+      { t: "Anxiety", ev: "some", n: "This is for a specific standardised lavender-oil capsule used in trials, not home-made products. Never swallow essential oils." },
+      { t: "Sleep from the scent", ev: "limited", n: "Small studies, mixed results. A pleasant ritual." }
+    ],
+    safety: "Never swallow lavender essential oil, and always dilute it on skin. Keep essential oils away from cats, which can't process them.",
+    makes: ["h-sachet","b-bath","b-soap"],
+    art: { leaf: "needle", flower: "spike", fc: "#9a7fd1", lc: "#94a898" }
+  },
+  {
+    id: "chives", name: "Chives", latin: "Allium schoenoprasum", family: "Onion family",
+    type: "Bulbous perennial", hardy: "Fully hardy",
+    sun: ["full","part"], container: true,
+    cal: { si: [3,4], so: [4,5], pr: [3,4,9,10], po: [5], hv: [3,4,5,6,7,8,9,10] },
+    grow: "Cut leaves 3cm above the soil and they regrow within weeks. The purple flowers are edible and loved by bees.",
+    propagate: "Dig up and split clumps every 2–3 years in spring or autumn.",
+    winter: "Dies back. Pot a small clump in October for a windowsill supply.",
+    uses: [
+      { t: "Eggs, potatoes, dressings, soft cheese; flowers in salads", ev: "food" }
+    ],
+    safety: "Safe as food. All alliums are toxic to cats and dogs, so keep pets away.",
+    makes: ["m-omelette","m-salad"],
+    art: { leaf: "grass", flower: "globe", fc: "#c58fd6", lc: "#5f9a5c" }
+  },
+  {
+    id: "parsley", name: "Parsley", latin: "Petroselinum crispum", family: "Carrot family",
+    type: "Biennial (grow as annual)", hardy: "Hardy",
+    sun: ["full","part"], container: true,
+    cal: { si: [2,3,4], so: [4,5,6,7], po: [5], hv: ALL },
+    grow: "Slow to germinate, sometimes 4–6 weeks. Soak seed overnight first. Likes moist, rich soil and copes with part shade.",
+    propagate: "From seed only. Sow little and often.",
+    winter: "Keeps going in mild winters, especially with a cloche or on a windowsill. It flowers and finishes in its second spring.",
+    uses: [
+      { t: "Salsa verde, tabbouleh, eggs, garnish", ev: "food" },
+      { t: "Iron and vitamin C", ev: "good", n: "A good handful adds real vitamin C, which helps you absorb iron from beans and lentils in the same meal." }
+    ],
+    safety: "Safe as food. It's high in vitamin K, so if you take warfarin, keep your intake steady. Avoid medicinal amounts and parsley seed oil in pregnancy.",
+    makes: ["m-salsa","m-omelette","m-dal"],
+    art: { leaf: "lobed", flower: "umbel", fc: "#d6d48a", lc: "#4f8f4a" }
+  },
+  {
+    id: "basil", name: "Basil", latin: "Ocimum basilicum", family: "Mint family",
+    type: "Tender annual", hardy: "Not hardy; damaged below about 10°C",
+    sun: ["full"], container: true,
+    cal: { si: [3,4,5,6], pr: [6,7,8], po: [6,7], hv: [6,7,8,9] },
+    grow: "Needs warmth. Keep it on a sunny windowsill or in a greenhouse, and only put it outside in a sheltered sunny spot from June. Water in the morning, not at night.",
+    propagate: "Stems root in a glass of water in about 10 days. One supermarket pot can become ten plants.",
+    winter: "Won't survive outside. Keep a pot on the warmest bright windowsill, or treat it as a summer crop.",
+    uses: [
+      { t: "Tomatoes, pasta, salsa verde, pesto", ev: "food" }
+    ],
+    safety: "Safe as food.",
+    makes: ["m-salsa","m-eggs"],
+    art: { leaf: "oval", flower: "spike", fc: "#f3efe6", lc: "#4fa257" }
+  },
+  {
+    id: "fennel", name: "Herb fennel", latin: "Foeniculum vulgare", family: "Carrot family",
+    type: "Hardy perennial", hardy: "Fully hardy",
+    sun: ["full"], container: false,
+    cal: { si: [3,4], so: [4,5,6], po: [5], hv: [5,6,7,8,9,10] },
+    grow: "A tall, airy plant up to 1.5m. Keep it well away from dill; they cross-pollinate and the seed turns muddled.",
+    propagate: "From seed. Self-seeds freely, so cut the heads if you don't want seedlings.",
+    winter: "Dies back and returns in spring.",
+    uses: [
+      { t: "Leaves with fish; seeds in bread and tea", ev: "food" },
+      { t: "Bloating after meals", ev: "folk", n: "A traditional after-dinner tea. Little modern testing." }
+    ],
+    safety: "Don't give fennel tea to babies or young children; it contains estragole. Avoid medicinal amounts in pregnancy.",
+    makes: ["t-fennel","m-salmon"],
+    art: { leaf: "feathery", flower: "umbel", fc: "#e6cf4a", lc: "#7fae6d" }
+  },
+  {
+    id: "dill", name: "Dill", latin: "Anethum graveolens", family: "Carrot family",
+    type: "Hardy annual", hardy: "Hardy annual",
+    sun: ["full"], container: true,
+    cal: { so: [4,5,6,7], hv: [6,7,8,9] },
+    grow: "Hates being moved, so sow where it will grow. Sow a short row every 3–4 weeks for a steady supply. Keep it apart from fennel.",
+    propagate: "From seed only.",
+    winter: "An annual; it finishes in autumn.",
+    uses: [
+      { t: "Salmon, potatoes, cucumber, yoghurt, pickles", ev: "food" }
+    ],
+    safety: "Safe as food.",
+    makes: ["m-salmon"],
+    art: { leaf: "feathery", flower: "umbel", fc: "#e3d34f", lc: "#86b07a" }
+  },
+  {
+    id: "coriander", name: "Coriander", latin: "Coriandrum sativum", family: "Carrot family",
+    type: "Annual", hardy: "Hardy in mild winters",
+    sun: ["full","part"], container: true,
+    cal: { si: [1,2,10,11,12], so: [3,4,5,6,7,8,9], hv: [4,5,6,7,8,9,10] },
+    grow: "Bolts to seed fast in heat or dry soil. Give it part shade in summer, keep it watered, and sow little and often.",
+    propagate: "From seed only. Let some plants seed: the green seeds are delicious and the dried ones are the spice.",
+    winter: "Grows well on a cool windowsill over winter for leaves.",
+    uses: [
+      { t: "Dal, curries, salsas, rice bowls; seeds as a spice", ev: "food" }
+    ],
+    safety: "Safe as food. If it tastes of soap to you, that's genetic; use parsley instead.",
+    makes: ["m-dal"],
+    art: { leaf: "lobed", flower: "umbel", fc: "#f4eef4", lc: "#5c9b52" }
+  },
+  {
+    id: "oregano", name: "Oregano / marjoram", latin: "Origanum vulgare", family: "Mint family",
+    type: "Hardy perennial", hardy: "Fully hardy",
+    sun: ["full"], container: true,
+    cal: { si: [3,4,5], pr: [3,4,5,6], po: [5,6], hv: [6,7,8,9] },
+    grow: "Poor soil and full sun give the strongest flavour. Pick just before the flowers open.",
+    propagate: "Divide clumps in spring, or take cuttings in early summer.",
+    winter: "Dies back to a low mat. Dry plenty in summer, as dried oregano keeps its flavour well.",
+    uses: [
+      { t: "Tomato sauces, baked eggs, pizza, roast veg", ev: "food" }
+    ],
+    safety: "Safe as food. Never swallow undiluted oregano oil; it burns.",
+    makes: ["m-eggs","k-dry"],
+    art: { leaf: "tiny", flower: "globe", fc: "#e3a2c4", lc: "#78966a" }
+  },
+  {
+    id: "bay", name: "Bay", latin: "Laurus nobilis", family: "Laurel family",
+    type: "Evergreen shrub or small tree", hardy: "Borderline; protect in hard frosts, especially in pots",
+    sun: ["full","part"], container: true,
+    cal: { pr: [8,9], po: [4,5], hv: ALL },
+    grow: "Buy a young plant; seed is very slow. Grows happily in a large pot sheltered from cold winds. Clip into shape in summer.",
+    propagate: "Semi-ripe cuttings in late summer. They're slow and many fail, so take several.",
+    winter: "Pick leaves all year. Wrap pots in hessian or fleece in hard frosts.",
+    uses: [
+      { t: "Stocks, stews, rice, custards, simmer pots", ev: "food" }
+    ],
+    safety: "Only sweet bay (Laurus nobilis) is edible. Cherry laurel and other 'laurels' are poisonous, so be sure of your plant. Remove bay leaves before eating; they're stiff and sharp.",
+    makes: ["h-simmer","m-dal"],
+    art: { leaf: "bay", flower: "none", fc: "#e8e2a0", lc: "#3f6d4a" }
+  },
+  {
+    id: "garlic", name: "Garlic", latin: "Allium sativum", family: "Onion family",
+    type: "Bulb, grown as annual", hardy: "Fully hardy; needs winter cold",
+    sun: ["full"], container: true,
+    cal: { po: [10,11,12,2,3], hv: [6,7] },
+    grow: "Plant single cloves pointy end up, 2–3cm deep and 15cm apart. Autumn planting gives bigger bulbs, because the cold triggers them to split into cloves. Use garden-centre bulbs, not supermarket ones.",
+    propagate: "Save your biggest bulb and replant its cloves next autumn.",
+    winter: "October and November are the best planting months, so now's the time.",
+    uses: [
+      { t: "Almost every savoury dish", ev: "food" },
+      { t: "Colds", ev: "limited", n: "Reviews found too little good evidence that garlic prevents or shortens colds." },
+      { t: "Blood pressure", ev: "some", n: "Small reductions seen with garlic supplements in trials, not with cooking amounts." }
+    ],
+    safety: "Garlic supplements can increase bleeding risk with blood thinners. Raw garlic stored in oil can grow botulism bacteria: refrigerate and use within 4 days. Toxic to cats and dogs.",
+    makes: ["m-beans","m-chicken","m-dal"],
+    art: { leaf: "grass", flower: "globe", fc: "#f1ecf4", lc: "#7aa36b" }
+  },
+  {
+    id: "nasturtium", name: "Nasturtium", latin: "Tropaeolum majus", family: "Nasturtium family",
+    type: "Tender annual", hardy: "Killed by the first frost",
+    sun: ["full"], container: true,
+    cal: { si: [4], so: [5,6], hv: [6,7,8,9,10] },
+    grow: "Grow it in poor soil. Rich soil gives lots of leaves and few flowers. Push the big seeds in 2cm deep after the last frost.",
+    propagate: "From seed. Self-seeds most years.",
+    winter: "Collapses at the first frost. Save the fat seeds in autumn.",
+    uses: [
+      { t: "Peppery leaves and flowers for salads; pickled seed pods", ev: "food" }
+    ],
+    safety: "Safe as food in salad amounts.",
+    makes: ["m-salad"],
+    art: { leaf: "round", flower: "trumpet", fc: "#ef6a2a", lc: "#6ea95a" }
+  },
+  {
+    id: "yarrow", name: "Yarrow", latin: "Achillea millefolium", family: "Daisy family",
+    type: "Hardy perennial wildflower", hardy: "Fully hardy",
+    sun: ["full"], container: true,
+    cal: { si: [3,4], so: [4,5], pr: [3,4,9,10], hv: [6,7,8,9] },
+    grow: "Tough and drought-proof. Thrives in poor soil and loved by pollinators.",
+    propagate: "Divide clumps in spring or autumn.",
+    winter: "Feathery leaves stay low through winter.",
+    uses: [
+      { t: "Dried flowers for wreaths and pollinator gardens", ev: "food" },
+      { t: "Wound healing and fevers", ev: "folk", n: "Ancient folklore (named after Achilles), with no good human trials." }
+    ],
+    safety: "Avoid in pregnancy. Daisy-family allergy risk; can cause skin sensitivity. Don't forage white flat-topped flowers: hemlock and hemlock water dropwort are deadly lookalikes. Grow your own.",
+    makes: ["k-dry"],
+    art: { leaf: "feathery", flower: "umbel", fc: "#f5f1ea", lc: "#7c9a6c" }
+  },
+  {
+    id: "feverfew", name: "Feverfew", latin: "Tanacetum parthenium", family: "Daisy family",
+    type: "Short-lived perennial", hardy: "Fully hardy",
+    sun: ["full"], container: true,
+    cal: { si: [2,3,4], so: [4,5,6], hv: [6,7,8,9] },
+    grow: "Easy from seed and self-seeds freely. Masses of small daisy flowers in summer.",
+    propagate: "From seed, or keep a few of its seedlings.",
+    winter: "Often stays as a leafy rosette.",
+    uses: [
+      { t: "Migraine prevention", ev: "some", n: "Trials are mixed; some showed fewer migraines, others no effect. Talk to your GP about migraines." }
+    ],
+    safety: "Avoid in pregnancy. Chewing fresh leaves often causes mouth ulcers. Daisy-family allergy risk. May increase bleeding with blood thinners. Stopping after long use can bring rebound headaches.",
+    makes: [],
+    art: { leaf: "lobed", flower: "daisy", fc: "#ffffff", lc: "#a3b85b" }
+  },
+  {
+    id: "echinacea", name: "Echinacea", latin: "Echinacea purpurea", family: "Daisy family",
+    type: "Hardy perennial", hardy: "Fully hardy in free-draining soil",
+    sun: ["full"], container: true,
+    cal: { si: [2,3,4], pr: [3,4,10], po: [5,6], hv: [7,8,9] },
+    grow: "Seed germinates better after four weeks in the fridge in damp compost. Flowers in its second year. A pollinator magnet.",
+    propagate: "Divide established clumps in spring or autumn.",
+    winter: "Leave the seed heads standing for birds.",
+    uses: [
+      { t: "Colds", ev: "limited", n: "Reviews show at most a small effect on catching colds, and products vary hugely." }
+    ],
+    safety: "Daisy-family allergy risk. Ask your doctor first if you have an autoimmune condition or take immune-suppressing medicine.",
+    makes: [],
+    art: { leaf: "oval", flower: "daisy", fc: "#d872a6", lc: "#5e8a55" }
+  }
+];
+
+/* Kitchen-cupboard botanicals that people ask about but that won't grow outside in the UK */
+const PANTRY = [
+  {
+    id: "ginger", name: "Ginger", grow: "Won't survive outside. A fresh supermarket root with 'eyes' will sprout in a pot of compost on a warm windowsill.",
+    evidence: [
+      { t: "Nausea (travel, pregnancy sickness)", ev: "good" },
+      { t: "Period pain", ev: "some", n: "Several small trials found ginger eased cramps, some comparing it with ibuprofen." }
+    ],
+    safety: "Can cause heartburn. Food amounts are fine in pregnancy; check supplements with your midwife. High-dose supplements may interact with blood thinners."
+  },
+  {
+    id: "turmeric", name: "Turmeric", grow: "Indoor plant only; needs warmth and humidity.",
+    evidence: [
+      { t: "Joint pain from knee osteoarthritis", ev: "limited", n: "Some trials of concentrated curcumin extracts. Quality is low." },
+      { t: "'Antioxidant shield' and detox", ev: "none", n: "Curcumin is poorly absorbed. Black pepper raises absorption, but no benefit at food amounts has been shown." }
+    ],
+    safety: "Cooking amounts are fine. Concentrated turmeric supplements have been linked to liver injury, and may interact with blood thinners and diabetes medicines."
+  },
+  {
+    id: "hibiscus", name: "Hibiscus (roselle)", grow: "Hibiscus sabdariffa is a tropical annual; the garden hibiscus is a different plant. Buy dried calyces for tea.",
+    evidence: [
+      { t: "Blood pressure", ev: "some", n: "Small trials show a modest drop in blood pressure." },
+      { t: "'Thins the blood'", ev: "none", n: "No evidence. Blood thickness isn't something tea changes." }
+    ],
+    safety: "Avoid in pregnancy. If you take blood-pressure or any regular medicine, ask a pharmacist first, as it can add to their effect."
+  },
+  {
+    id: "staranise", name: "Star anise", grow: "Tropical tree; not grown in the UK.",
+    evidence: [
+      { t: "'Purges mucus, opens airways'", ev: "none", n: "No human evidence. It contains shikimic acid, used to manufacture Tamiflu, but the tea does not act like Tamiflu." }
+    ],
+    safety: "Buy only Chinese star anise from a food supplier. Japanese star anise is poisonous, looks almost identical, and has contaminated batches before. Never give star anise tea to babies; it has caused seizures in infants."
+  },
+  {
+    id: "flax", name: "Flaxseed (linseed)", grow: "Yes! Flax (Linum usitatissimum) is a pretty blue-flowered annual. Sow outside March–May in full sun.",
+    evidence: [
+      { t: "Constipation (ground seeds)", ev: "good", n: "Soluble fibre. Grind it, or whole seeds pass straight through." },
+      { t: "Blood pressure", ev: "some", n: "Ground flax over months gave small drops in trials." },
+      { t: "'Lubricates joints', 'balances hormones'", ev: "none", n: "Nothing supports joint lubrication. Hormone evidence is weak and mixed." }
+    ],
+    safety: "Eat with plenty of water. Take it at least two hours apart from medicines, as the fibre can reduce their absorption."
+  },
+  {
+    id: "lemon", name: "Lemon", grow: "A potted lemon tree can live outside in summer but must come indoors before frost.",
+    evidence: [
+      { t: "Vitamin C, and helps you drink more water", ev: "good" },
+      { t: "'Detoxes the liver', 'binds heavy metals'", ev: "none", n: "Your liver and kidneys do this already. Lemon peel has no proven chelating effect." }
+    ],
+    safety: "Acidic drinks soften tooth enamel. Drink through a straw or rinse with plain water after, and don't brush teeth straight away."
+  },
+  {
+    id: "honey", name: "Honey", grow: "Support local beekeepers. Plant lavender, chives, oregano and echinacea for bees.",
+    evidence: [
+      { t: "Coughs from colds", ev: "good", n: "NICE (the UK's health guidance body) suggests honey for short-term coughs in people over one year old." }
+    ],
+    safety: "Never give honey to babies under 12 months (infant botulism risk). Medical-grade Manuka wound dressings are sterilised; jar honey is not for wounds."
+  }
+];
+
+/* ---------- MAKES: drinks, kitchen, apothecary, home, meals for one ---------- */
+/* cat: tea | kitchen | meal | body | home */
+const MAKES = [
+  // ---------- TEAS & DRINKS ----------
+  {
+    id: "t-mint", cat: "tea", title: "Fresh mint tea", herbs: ["mint"], time: "6 min", ev: "folk",
+    evnote: "A long tradition for comfort after meals. Peppermint OIL capsules have good evidence for IBS; the tea is far weaker and lightly studied.",
+    ingredients: ["A small handful of fresh mint (8–10 sprigs)", "250ml just-boiled water", "Honey or a slice of lemon (optional)"],
+    steps: ["Rinse the mint and bruise it gently in your hands.", "Pour over water just off the boil.", "Cover and steep 5 minutes, then drink warm."],
+    keeps: "Drink the same day. Leftovers go in the fridge and are poured away after 24 hours.",
+    safety: "Can worsen heartburn or reflux."
+  },
+  {
+    id: "t-sleep", cat: "tea", title: "Chamomile & lemon balm wind-down", herbs: ["chamomile","lemonbalm"], time: "10 min", ev: "limited",
+    evnote: "Small studies suggest mild calming effects. The best-supported part is the routine itself: same time, screen down, warm drink.",
+    ingredients: ["1 tbsp fresh chamomile flowers (or 1 tsp dried)", "5–6 lemon balm leaves", "250ml just-boiled water", "Honey to taste"],
+    steps: ["Put the flowers and leaves in a mug or pot.", "Pour over the water and cover with a saucer; this keeps the scented oils in.", "Steep 7–10 minutes, strain and sip slowly, an hour before bed."],
+    keeps: "Make fresh each night.",
+    safety: "Skip chamomile if you're allergic to daisy-family plants. Ask a pharmacist if you take sedatives, thyroid medicine or blood thinners."
+  },
+  {
+    id: "t-ginger", cat: "tea", title: "Ginger, lemon & honey", herbs: [], pantry: ["ginger","lemon","honey"], time: "12 min", ev: "good",
+    evnote: "Honey for coughs is in UK NICE guidance; ginger has good evidence for nausea and some for period pain. It won't cure a cold, but it's genuinely soothing.",
+    ingredients: ["3cm fresh ginger, sliced thin", "300ml water", "Juice of ½ lemon", "1–2 tsp honey"],
+    steps: ["Simmer the ginger in the water for 10 minutes.", "Take off the heat and add the lemon juice.", "Stir in honey once it's cool enough to sip."],
+    keeps: "Drink fresh. A strained batch keeps 24 hours in the fridge.",
+    safety: "No honey for babies under one. Ginger can cause heartburn."
+  },
+  {
+    id: "t-thyme", cat: "tea", title: "Thyme & honey throat tea", herbs: ["thyme"], pantry: ["honey"], time: "10 min", ev: "folk",
+    evnote: "Thyme for coughs is a long European tradition; the honey is the part with good evidence.",
+    ingredients: ["3 sprigs fresh thyme (or 1 tsp dried)", "250ml just-boiled water", "1–2 tsp honey"],
+    steps: ["Cover the thyme with the water and a saucer.", "Steep 10 minutes, then strain.", "Stir in honey and sip warm."],
+    keeps: "Drink fresh.",
+    safety: "See a GP if a cough lasts more than three weeks or you cough up blood."
+  },
+  {
+    id: "t-gargle", cat: "tea", title: "Sage gargle", herbs: ["sage"], time: "15 min", ev: "limited",
+    evnote: "One small trial of a sage throat spray showed some relief. Gargling warm salty or herbal water is low-risk comfort.",
+    ingredients: ["1 tbsp fresh sage leaves, torn", "250ml just-boiled water", "½ tsp salt"],
+    steps: ["Steep the sage, covered, for 10 minutes.", "Strain, stir in the salt and let it cool to warm.", "Gargle a mouthful for 30 seconds and spit. Repeat a few times a day."],
+    keeps: "Make fresh daily.",
+    safety: "Gargle, don't drink large amounts. Not for use in pregnancy."
+  },
+  {
+    id: "t-fennel", cat: "tea", title: "After-dinner fennel seed tea", herbs: ["fennel"], time: "10 min", ev: "folk",
+    evnote: "A traditional digestive. Little modern testing.",
+    ingredients: ["1 tsp fennel seeds", "250ml just-boiled water"],
+    steps: ["Crush the seeds lightly with a spoon or pestle.", "Pour over the water, cover and steep 10 minutes.", "Strain and sip."],
+    keeps: "Drink fresh.",
+    safety: "Not for babies or young children. Avoid regular use in pregnancy."
+  },
+  {
+    id: "t-hibiscus", cat: "tea", title: "Cold-brew hibiscus", herbs: [], pantry: ["hibiscus"], time: "5 min + 8 hrs in the fridge", ev: "some",
+    evnote: "Small trials show a modest drop in blood pressure. It does not 'thin the blood'.",
+    ingredients: ["2 tsp dried hibiscus (roselle)", "500ml cold water", "Orange slice or mint (optional)"],
+    steps: ["Combine everything in a jar.", "Steep IN THE FRIDGE for 6–8 hours. Never leave it out at room temperature.", "Strain and serve over ice."],
+    keeps: "Fridge only. Drink within 24 hours.",
+    safety: "Avoid in pregnancy. Check with a pharmacist if you take blood-pressure or other regular medicine."
+  },
+  {
+    id: "t-cold", cat: "tea", title: "Herb water, the safe way", herbs: ["mint","lemonbalm"], time: "5 min + 2 hrs", ev: "food",
+    evnote: "The real benefit is that you drink more water. This is the safe version of the viral '14 days in water' trend.",
+    ingredients: ["A few sprigs of mint or lemon balm", "4 slices cucumber or a strip of lemon peel", "1 litre cold water"],
+    steps: ["Rinse the herbs and fruit well.", "Add them to a jug of cold water.", "Chill in the fridge for 2 hours or more before drinking."],
+    keeps: "Fridge only, maximum 24 hours, then compost the herbs and start fresh. Never steep at room temperature for days; plant matter in water grows bacteria and mould.",
+    safety: "None at these amounts."
+  },
+  {
+    id: "t-golden", cat: "tea", title: "Golden milk for one", herbs: [], pantry: ["turmeric","ginger","honey"], time: "6 min", ev: "food",
+    evnote: "A cosy drink. Health effects of turmeric at food amounts are unproven; enjoy it for the taste.",
+    ingredients: ["250ml milk or oat milk", "½ tsp ground turmeric", "Pinch of black pepper", "¼ tsp cinnamon or a slice of fresh ginger", "1 tsp honey or maple syrup"],
+    steps: ["Whisk everything except the honey into the milk in a small pan.", "Heat gently until steaming; don't let it boil.", "Sweeten and drink."],
+    keeps: "Drink fresh.",
+    safety: "Turmeric stains clothes and worktops."
+  },
+
+  // ---------- KITCHEN CRAFT & PRESERVING ----------
+  {
+    id: "k-dry", cat: "kitchen", title: "Air-dry a herb harvest", herbs: ["rosemary","sage","thyme","oregano","yarrow"], time: "10 min + 1–2 weeks", ev: "food",
+    evnote: "The basic skill of the herb year. Woody herbs dry best; soft herbs like basil are better frozen.",
+    ingredients: ["Herbs cut mid-morning on a dry day, after the dew has gone", "String or rubber bands", "Paper bags (optional, to catch bits)"],
+    steps: ["Shake off insects; only wash if dirty, then dry completely.", "Tie small bunches of 5–8 stems.", "Hang upside down somewhere warm, dark and airy, out of steamy kitchens.", "When leaves crumble crisply (1–2 weeks), strip and store whole in airtight glass jars away from light."],
+    keeps: "Best within 12 months. Label the jar with herb and date; log it in Stores.",
+    safety: "Throw out anything that smells musty or shows mould."
+  },
+  {
+    id: "k-freeze", cat: "kitchen", title: "Herb ice cubes", herbs: ["basil","parsley","coriander","mint","chives","dill"], time: "10 min", ev: "food",
+    evnote: "Freezing keeps soft herbs far better than drying them.",
+    ingredients: ["Soft herbs, chopped", "Olive oil (for cooking) or water (for drinks)", "An ice-cube tray"],
+    steps: ["Pack chopped herbs into the tray, two-thirds full.", "Top up with olive oil or water.", "Freeze, then pop out into a labelled bag.", "Drop cubes straight into pans, sauces or drinks."],
+    keeps: "Up to 6 months frozen.",
+    safety: "None."
+  },
+  {
+    id: "k-salt", cat: "kitchen", title: "Rosemary & thyme herb salt", herbs: ["rosemary","thyme","sage"], time: "15 min + overnight", ev: "food",
+    evnote: "A lovely gift, and it makes plain food taste of the garden.",
+    ingredients: ["100g flaky sea salt", "2 tbsp rosemary leaves", "1 tbsp thyme leaves", "Zest of 1 lemon (optional)"],
+    steps: ["Chop the herbs very finely with half the salt.", "Mix in the remaining salt and the zest.", "Spread on a tray and leave to dry overnight.", "Jar it."],
+    keeps: "Several months in a sealed jar.",
+    safety: "Still salt; use as you would normal salt."
+  },
+  {
+    id: "k-vinegar", cat: "kitchen", title: "Herb vinegar", herbs: ["thyme","rosemary","chives"], time: "10 min + 2–3 weeks", ev: "food",
+    evnote: "Unlike water, vinegar is acidic enough to steep herbs safely at room temperature.",
+    ingredients: ["A clean glass jar or bottle", "Washed, completely dry herb sprigs (or chive flowers for pink vinegar)", "White wine or cider vinegar to cover"],
+    steps: ["Fill the jar a third full with herbs.", "Cover completely with vinegar; herbs poking out can go mouldy.", "Seal with a plastic or glass lid (vinegar corrodes metal) and leave in a cool dark place for 2–3 weeks.", "Strain into a clean bottle."],
+    keeps: "Up to 6 months, cool and dark.",
+    safety: "Discard if it goes cloudy, slimy or mouldy."
+  },
+  {
+    id: "k-oil", cat: "kitchen", title: "Herb oil, made safely", herbs: ["rosemary","thyme","basil"], time: "15 min", ev: "food",
+    evnote: "Fresh herbs or garlic in oil at room temperature can grow the bacteria that cause botulism. This method avoids that.",
+    ingredients: ["150ml olive oil", "A handful of DRIED herbs, or fresh herbs if you'll refrigerate it"],
+    steps: ["Warm the oil gently with the herbs for 5 minutes; don't let it bubble.", "Cool, strain into a clean bottle and label with the date."],
+    keeps: "Made with fresh herbs or garlic: fridge only, use within 4 days. Made with dried herbs: cool cupboard, use within a month.",
+    safety: "Never keep fresh garlic or fresh herbs in oil at room temperature."
+  },
+
+  // ---------- MEALS FOR ONE ----------
+  {
+    id: "m-omelette", cat: "meal", title: "Chive & parsley omelette", herbs: ["chives","parsley"], time: "10 min", ev: "food",
+    evnote: "About 20g protein. Add the salad and toast for fibre.",
+    ingredients: ["2 eggs", "1 tbsp chopped chives", "1 tbsp chopped parsley", "Small knob of butter", "20g grated cheddar (optional)", "1 slice wholemeal toast", "Handful of salad leaves"],
+    steps: ["Beat the eggs with half the herbs and a pinch of salt and pepper.", "Melt the butter in a small frying pan over medium heat.", "Pour in the eggs and draw the edges to the centre with a spatula until almost set.", "Scatter over the cheese and the rest of the herbs, fold, and slide onto a plate with toast and leaves."],
+    keeps: "Eat straight away.",
+    safety: "None."
+  },
+  {
+    id: "m-pea", cat: "meal", title: "Pea & mint soup", herbs: ["mint"], time: "15 min", ev: "food",
+    evnote: "Frozen peas bring protein and fibre. Uses freezer staples, so it's always possible.",
+    ingredients: ["½ onion, chopped", "1 tsp olive oil", "150g frozen peas", "250ml vegetable stock", "6–8 mint leaves", "Squeeze of lemon", "1 tbsp plain yoghurt", "Bread to dunk"],
+    steps: ["Soften the onion in the oil for 5 minutes.", "Add the peas and stock and simmer for 4 minutes.", "Add the mint, then blend until smooth.", "Season, add the lemon, and swirl in the yoghurt."],
+    keeps: "Fridge 2 days, freezer 3 months.",
+    safety: "None."
+  },
+  {
+    id: "m-chicken", cat: "meal", title: "Lemon-thyme chicken traybake", herbs: ["thyme","garlic"], time: "40 min", ev: "food",
+    evnote: "A complete plate in one tin: protein, starchy veg and colour.",
+    ingredients: ["2 boneless chicken thighs", "1 medium potato or sweet potato, in chunks", "½ red onion, in wedges", "½ red pepper, in strips", "1 garlic clove, squashed", "3 sprigs thyme", "Zest and juice of ½ lemon", "1 tbsp olive oil"],
+    steps: ["Heat oven to 200°C (180°C fan, gas 6).", "Toss everything in a small tin with the oil, lemon, salt and pepper.", "Roast for 35 minutes, turning once, until the chicken is golden.", "Check the chicken is cooked: no pink inside and the juices run clear."],
+    keeps: "Leftovers in the fridge 2 days.",
+    safety: "Wash hands and boards after handling raw chicken."
+  },
+  {
+    id: "m-beans", cat: "meal", title: "Rosemary white beans on toast", herbs: ["rosemary","garlic"], time: "10 min", ev: "food",
+    evnote: "Plant protein, fibre and iron. The lemon's vitamin C helps you absorb that iron.",
+    ingredients: ["½ tin cannellini beans, drained", "1 garlic clove, sliced", "1 small sprig rosemary, leaves chopped finely", "1 tbsp olive oil", "Handful of spinach", "1 thick slice sourdough", "Lemon wedge", "Pinch of chilli flakes"],
+    steps: ["Warm the oil with the garlic and rosemary for 1 minute.", "Add the beans and a splash of water; crush a few with a fork.", "Stir in the spinach until it wilts.", "Pile onto toast with lemon, chilli and black pepper."],
+    keeps: "Eat straight away. Keep the other half-tin of beans covered in the fridge for 2 days.",
+    safety: "None."
+  },
+  {
+    id: "m-gnocchi", cat: "meal", title: "Sage brown-butter gnocchi", herbs: ["sage"], time: "12 min", ev: "food",
+    evnote: "An autumn comfort plate. The peas and parmesan add protein.",
+    ingredients: ["200g shop-bought gnocchi", "15g butter", "6 sage leaves", "60g frozen peas", "15g parmesan, grated", "Squeeze of lemon"],
+    steps: ["Boil the gnocchi and peas together until the gnocchi float, about 2 minutes. Drain.", "Melt the butter with the sage until it smells nutty and the leaves crisp.", "Toss in the gnocchi and peas.", "Finish with parmesan, lemon and black pepper."],
+    keeps: "Eat straight away.",
+    safety: "None."
+  },
+  {
+    id: "m-salsa", cat: "meal", title: "Salsa verde pasta with chickpeas", herbs: ["parsley","basil","mint"], time: "15 min", ev: "food",
+    evnote: "A big handful of herbs counts as greens. The chickpeas make it a balanced meal.",
+    ingredients: ["80g dried pasta", "Small handful each of parsley, basil and mint (about 15g)", "1 tsp capers", "½ garlic clove", "Zest and juice of ½ lemon", "2 tbsp olive oil", "½ tin chickpeas, drained", "1 tbsp grated parmesan"],
+    steps: ["Cook the pasta; add the chickpeas for the last 2 minutes.", "Finely chop the herbs, capers and garlic together, or blitz them.", "Mix with the lemon, oil and a pinch of salt.", "Drain, keeping a splash of water, and toss everything together with the parmesan."],
+    keeps: "Spare salsa verde keeps 2 days in the fridge under a layer of oil.",
+    safety: "None."
+  },
+  {
+    id: "m-salmon", cat: "meal", title: "Dill & lemon salmon parcel", herbs: ["dill","fennel"], time: "25 min", ev: "food",
+    evnote: "Oily fish gives omega-3. The NHS suggests one portion a week.",
+    ingredients: ["1 salmon fillet", "150g new potatoes, halved", "Handful of green beans", "A few sprigs of dill (or fennel fronds)", "2 lemon slices", "1 tsp olive oil"],
+    steps: ["Heat oven to 200°C (180°C fan). Boil the potatoes for 15 minutes.", "Put the salmon on foil or baking paper, top with dill, lemon and oil, and seal into a loose parcel.", "Bake 15 minutes; add the beans to the potatoes for their last 4 minutes.", "Open the parcel at the table and spoon the juices over everything."],
+    keeps: "Eat straight away.",
+    safety: "Salmon is cooked when it flakes easily and is opaque all the way through."
+  },
+  {
+    id: "m-dal", cat: "meal", title: "Red lentil dal with coriander", herbs: ["coriander","garlic","bay"], pantry: ["turmeric","ginger"], time: "25 min", ev: "food",
+    evnote: "Lentils give protein, fibre and iron; the lime and coriander add vitamin C. This is turmeric as food, which is how it's best used.",
+    ingredients: ["60g red lentils, rinsed", "½ onion, chopped", "1 garlic clove, grated", "1 tsp grated ginger", "½ tsp each turmeric and cumin", "1 bay leaf", "250ml water", "1 tsp oil", "Handful of coriander", "Lime wedge", "Rice or a flatbread"],
+    steps: ["Soften the onion in the oil, then add the garlic, ginger and spices for 1 minute.", "Add the lentils, water and bay leaf.", "Simmer 15–20 minutes, stirring now and then, until soft and thick.", "Remove the bay leaf. Season, then top with coriander and lime."],
+    keeps: "Fridge 3 days, freezer 3 months. Easy to double and freeze a portion.",
+    safety: "Remove the bay leaf before eating."
+  },
+  {
+    id: "m-eggs", cat: "meal", title: "Oregano baked eggs", herbs: ["oregano","basil","parsley"], time: "25 min", ev: "food",
+    evnote: "A store-cupboard supper with protein from the eggs and a portion of veg from the tomatoes.",
+    ingredients: ["½ tin chopped tomatoes", "½ red pepper, sliced", "½ onion, sliced", "1 garlic clove", "1 tsp dried oregano", "2 eggs", "Basil or parsley to finish", "Bread for dipping"],
+    steps: ["Soften the onion and pepper in a little oil in a small frying pan, about 8 minutes.", "Add the garlic, oregano and tomatoes and simmer 5 minutes until thick.", "Make two hollows, crack in the eggs, cover with a lid and cook 5–7 minutes until the whites set.", "Scatter with herbs and eat from the pan."],
+    keeps: "Eat straight away.",
+    safety: "Cook the eggs until the whites are fully set."
+  },
+  {
+    id: "m-salad", cat: "meal", title: "Nasturtium, apple & feta salad", herbs: ["nasturtium","chives","calendula"], time: "10 min", ev: "food",
+    evnote: "A summer plate from the garden. The lentils make it a meal, not a side.",
+    ingredients: ["2 handfuls mixed leaves", "6–8 young nasturtium leaves and a few flowers", "½ apple, thinly sliced", "40g feta", "½ tin green lentils, drained", "1 tbsp toasted seeds", "Calendula petals to scatter", "Dressing: 1 tbsp olive oil, 1 tsp cider vinegar, snipped chives"],
+    steps: ["Shake the dressing ingredients in a jar.", "Toss the leaves, lentils and apple with the dressing.", "Crumble over the feta and add the seeds.", "Finish with nasturtium flowers and calendula petals."],
+    keeps: "Eat straight away.",
+    safety: "Only eat flowers you've grown or bought as edible; florist flowers are often sprayed."
+  },
+
+  // ---------- APOTHECARY (BODY & BEAUTY) ----------
+  {
+    id: "b-rinse", cat: "body", title: "Rosemary hair rinse", herbs: ["rosemary"], time: "10 min + cooling", ev: "limited",
+    evnote: "One small trial found rosemary OIL performed like a low-strength hair-loss treatment over six months. A rinse is lovely, but untested for growth.",
+    ingredients: ["3 sprigs fresh rosemary", "500ml just-boiled water"],
+    steps: ["Steep the rosemary in the water, covered, until cool.", "Strain into a jug or spray bottle.", "After shampooing, pour or spray over your hair and scalp, massage, and leave in or rinse lightly."],
+    keeps: "No preservative: fridge only, use within 3 days.",
+    safety: "Stop if your scalp gets itchy or red."
+  },
+  {
+    id: "b-shampoo", cat: "body", title: "Small-batch herbal shampoo", herbs: ["chamomile","rosemary","lavender"], time: "20 min", ev: "food",
+    evnote: "A simple, gentle wash. Castile soap is alkaline and can leave hair feeling rough, so the vinegar rinse matters.",
+    ingredients: ["60ml strong herb infusion (2 tbsp fresh chamomile, rosemary or lavender steeped in 100ml just-boiled water, cooled and strained)", "60ml unscented liquid castile soap", "Clean squeezy bottle", "For the rinse: 1 tbsp apple cider vinegar in 250ml water"],
+    steps: ["Combine the cooled infusion and castile soap in the bottle and shake gently.", "Use a small amount on wet hair and massage into the scalp.", "Rinse well, then pour over the diluted vinegar rinse to smooth the hair.", "Rinse again lightly if you don't like the smell."],
+    keeps: "No preservative: fridge, use within 1 week. Make tiny batches.",
+    safety: "Keep out of eyes. Castile soap may not suit colour-treated hair."
+  },
+  {
+    id: "b-oil", cat: "body", title: "Calendula-infused oil", herbs: ["calendula"], time: "15 min + 4–6 weeks", ev: "limited",
+    evnote: "A traditional base for skin balms. Use DRIED petals; fresh ones hold water and go mouldy in oil.",
+    ingredients: ["Dried calendula flowers, enough to fill a jar halfway", "Olive, sunflower or sweet almond oil to cover", "Clean, dry glass jar"],
+    steps: ["Fill the jar halfway with dried flowers.", "Cover completely with oil, with 2cm extra on top. Stir out any air bubbles.", "Seal, label and leave on a sunny windowsill for 4–6 weeks, shaking every few days.", "Strain through muslin into a clean bottle."],
+    keeps: "6–12 months, cool and dark. Throw away if it smells rancid.",
+    safety: "Patch-test on your inner arm for 24 hours first. Not for open wounds or burns."
+  },
+  {
+    id: "b-balm", cat: "body", title: "Calendula lip & hand balm", herbs: ["calendula"], time: "20 min", ev: "limited",
+    evnote: "A good barrier balm for dry lips and hands. The beeswax and oil do most of the work.",
+    ingredients: ["25ml calendula-infused oil", "6g beeswax pellets (or candelilla wax, which is vegan)", "Small tins or pots"],
+    steps: ["Set a heatproof jug in a pan of simmering water (a bain-marie).", "Melt the wax into the oil, stirring.", "Test: drip some on a cold spoon. Add a little wax for firmer, or oil for softer.", "Pour into tins and leave to set uncovered."],
+    keeps: "About 6 months.",
+    safety: "Hot wax burns. Patch-test first."
+  },
+  {
+    id: "b-soap", cat: "body", title: "Melt-and-pour calendula soap", herbs: ["calendula","lavender"], time: "30 min + 3 hrs setting", ev: "food",
+    evnote: "Melt-and-pour base is already-made soap, so there's no lye to handle. Making soap from scratch uses lye (sodium hydroxide), which causes severe burns; learn that in person.",
+    ingredients: ["250g melt-and-pour soap base (glycerine or shea)", "1 tbsp dried calendula petals", "Up to 2.5ml lavender essential oil (about 1%, optional)", "Silicone mould"],
+    steps: ["Cut the base into cubes and melt in a microwave in 20-second bursts, stirring between, until just liquid.", "Let it cool for a minute, then stir in the oil and most of the petals.", "Pour into the mould and sprinkle the last petals on top.", "Leave 2–3 hours to set hard, then pop out."],
+    keeps: "Wrap in cling film or wax paper once set; glycerine soap 'sweats' in damp air. Keeps about a year.",
+    safety: "Hot soap burns. Keep essential oils within 1%, and away from cats."
+  },
+  {
+    id: "b-bath", cat: "body", title: "Oat & flower bath bags", herbs: ["chamomile","lavender","calendula"], time: "10 min", ev: "some",
+    evnote: "Colloidal oatmeal is used in UK dermatology products for dry, itchy skin, and that part has decent evidence. The flowers are for joy.",
+    ingredients: ["3 tbsp porridge oats, blitzed to a powder", "1 tbsp dried chamomile", "1 tsp dried lavender", "1 tbsp dried calendula", "Muslin bags or a tied square of muslin"],
+    steps: ["Mix everything and fill a muslin bag.", "Tie it under the hot tap as the bath runs.", "Squeeze the bag in the water; it turns milky.", "Soak for 15 minutes. Compost the bag contents afterwards."],
+    keeps: "Dry mix keeps 6 months in a jar.",
+    safety: "Daisy-family allergy: leave out chamomile and calendula. The bath gets slippery."
+  },
+
+  // ---------- HOME & RITUAL ----------
+  {
+    id: "h-sachet", cat: "home", title: "Lavender pillow & drawer sachets", herbs: ["lavender"], time: "15 min", ev: "folk",
+    evnote: "Lavender scent for sleep has mixed, small studies. Lavender may help deter clothes moths a little, but it's not reliable on its own.",
+    ingredients: ["Dried lavender buds", "Small cotton or muslin bags", "Ribbon"],
+    steps: ["Rub the dried stems over a bowl to release the buds.", "Fill the bags two-thirds full and tie them.", "Squeeze gently to wake up the scent; refresh with new buds each summer."],
+    keeps: "Scent fades over 6–12 months.",
+    safety: "Keep out of reach of small children and pets."
+  },
+  {
+    id: "h-simmer", cat: "home", title: "Autumn simmer pot", herbs: ["rosemary","bay"], time: "5 min", ev: "food",
+    evnote: "Makes the house smell like a wise woman lives there. That's the whole point.",
+    ingredients: ["A small pan of water", "2 sprigs rosemary", "2 bay leaves", "Peel of 1 orange", "1 cinnamon stick", "3 cloves"],
+    steps: ["Put everything in the pan and bring to a simmer.", "Turn down to the lowest heat.", "Top up with water every 30 minutes."],
+    keeps: "Refrigerate and reuse for 2–3 days.",
+    safety: "Never leave it unattended or let it boil dry. Use a pan, not candles."
+  }
+];
+
+/* ---------- TRUTHS: myths vs reality ---------- */
+const MYTHS = [
+  {
+    claim: "Rosemary in water for 14 days unclogs 'brain fog pathways' and sharpens memory",
+    truth: "There are no 'brain fog pathways' to unclog. Small studies found rosemary's scent nudged memory-test scores up slightly. Leaving plant matter in water for 14 days grows bacteria and mould.",
+    instead: "Sniff rosemary while you study, if you like. Sleep, water, movement and daylight are what reliably help focus."
+  },
+  {
+    claim: "Mint water for 12 days cools internal inflammation and resets digestion",
+    truth: "Mint water doesn't reduce inflammation. Peppermint OIL capsules have good evidence for IBS symptoms, which is a different product. Twelve days of steeping is a food-safety hazard.",
+    instead: "Make fresh mint tea, or chill herb water in the fridge and drink it within 24 hours."
+  },
+  {
+    claim: "Star anise water for 7 days purges mucus and opens airways",
+    truth: "There's no human evidence. The real danger is Japanese star anise, a poisonous lookalike that has contaminated supplies and caused seizures in babies.",
+    instead: "For a cold: honey (over-1s), fluids, rest. See a GP if you're short of breath."
+  },
+  {
+    claim: "Lemon peel water binds heavy metals and gently flushes the liver",
+    truth: "Your liver and kidneys already clear waste. Nothing shows lemon peel binds heavy metals. Real heavy-metal poisoning needs hospital treatment.",
+    instead: "Enjoy lemon water to help you drink more. Protect your teeth from the acid."
+  },
+  {
+    claim: "Turmeric and pepper water activates your 'antioxidant shield' at cellular level",
+    truth: "'Antioxidant shield' isn't a real biological thing. Curcumin is poorly absorbed, even with pepper. Concentrated turmeric supplements have caused liver injury.",
+    instead: "Cook with turmeric. Eat lots of different coloured plants."
+  },
+  {
+    claim: "Hibiscus water for 14 days thins thickened blood",
+    truth: "Hibiscus tea modestly lowers blood pressure in small trials. It doesn't thin blood. It can stack with blood-pressure medicine and drop it too far.",
+    instead: "If you're worried about blood pressure, get it checked; UK pharmacies often do this free."
+  },
+  {
+    claim: "Flaxseed water lubricates stiff joints and regulates hormonal swings",
+    truth: "Ground flax helps constipation and may lower blood pressure a little. Joint lubrication isn't how flax works. Hormone evidence is weak.",
+    instead: "Stir a spoonful of ground flax into porridge, with plenty of water."
+  },
+  {
+    claim: "Detox teas cleanse your body",
+    truth: "Most 'detox' teas contain laxatives (senna) or diuretics. Any weight lost is water and stool, and regular use can cause dehydration and gut problems.",
+    instead: "Your organs detox you for free. Support them with water, fibre and sleep."
+  },
+  {
+    claim: "Natural means safe",
+    truth: "Many deadly poisons are plants: foxglove, hemlock, yew. St John's wort makes the contraceptive pill less effective and interacts with many medicines. Comfrey taken internally damages the liver.",
+    instead: "Tell your GP or pharmacist about any herbs you take regularly. It's free, private and they won't judge you."
+  },
+  {
+    claim: "Pennyroyal tea or herbs can bring on a late period",
+    truth: "Pennyroyal oil has caused liver failure and deaths. No herb is a safe or reliable way to end a pregnancy or 'restart' a period.",
+    instead: "Take a pregnancy test, and talk to your GP, a sexual health clinic, or a pharmacist. They're confidential."
+  },
+  {
+    claim: "Some herbs work as natural contraception",
+    truth: "No herb is reliable contraception. Seeds like wild carrot have folklore behind them, not evidence. App-predicted 'safe days' aren't reliable either.",
+    instead: "Sexual health clinics give free, confidential contraception advice, including hormone-free options."
+  },
+  {
+    claim: "Essential oils can be swallowed, or cure infections",
+    truth: "Essential oils are highly concentrated. Swallowing them can cause poisoning, especially in children. They're toxic to cats. They don't cure infections in the body.",
+    instead: "Use them diluted (1–2%) on skin, or in a diffuser in a ventilated room away from pets."
+  },
+  {
+    claim: "Herbs can replace your prescribed medicine",
+    truth: "Stopping antidepressants, asthma inhalers, the pill, thyroid or epilepsy medicine suddenly can be dangerous. Herbs are not tested substitutes.",
+    instead: "Use herbs alongside your care, not instead of it. If you want to change medicine, plan it with your prescriber."
+  },
+  {
+    claim: "Planting by the moon makes herbs grow better",
+    truth: "There's no reliable evidence that moon phases change how plants grow. Moon gardening is a lovely folk tradition, so enjoy it as a ritual.",
+    instead: "Sow when the soil is warm and the forecast is kind. Use the moon as your rhythm for reflection."
+  },
+  {
+    claim: "Eating for your cycle phase rebalances your hormones",
+    truth: "'Cycle syncing' diets have very little evidence behind them. Noticing how you feel across your cycle is useful self-knowledge.",
+    instead: "Track symptoms. See a GP for very heavy, painful or irregular periods; conditions like endometriosis and PCOS are under-diagnosed."
+  },
+  {
+    claim: "If there's a study, it's proven",
+    truth: "Many viral claims rest on test-tube or mouse studies at huge doses. A herb killing cells in a dish tells you almost nothing about a cup of tea.",
+    instead: "Ask: was it in people? How many? Compared with what? Who paid for it?"
+  }
+];
+
+const RED_FLAGS = [
+  "A precise number of days ('for 12 days') with no source.",
+  "Vague body-mechanic words: 'pathways', 'shield', 'purge', 'flush', 'reset', 'activate', 'at a cellular level'.",
+  "'Toxins' that are never named.",
+  "One herb that fixes many unrelated things.",
+  "'Doctors don't want you to know.'",
+  "Before-and-after testimonials instead of studies.",
+  "Someone selling the product, a course, or an affiliate link.",
+  "Urgency or fear: 'stop eating this NOW'."
+];
+
+const TRUSTED = [
+  { name: "NHS website", what: "Conditions, symptoms and when to see someone.", url: "https://www.nhs.uk" },
+  { name: "NCCIH 'Herbs at a Glance'", what: "US government summaries of what's known about each herb, including safety.", url: "https://www.nccih.nih.gov/health/herbsataglance" },
+  { name: "MHRA THR mark", what: "UK herbal products with a 'THR' number on the pack are checked for quality and safety.", url: "https://www.gov.uk/government/collections/herbal-medicines-granted-a-traditional-herbal-registration-thr" },
+  { name: "Cochrane", what: "Independent reviews that pool all the trials on a question.", url: "https://www.cochrane.org/evidence" },
+  { name: "Your pharmacist", what: "Free, no appointment. Ask about herb–medicine interactions.", url: "" },
+  { name: "RHS", what: "The Royal Horticultural Society, for UK growing advice.", url: "https://www.rhs.org.uk" }
+];
+
+const SAFETY_BASICS = [
+  "Tell your GP or pharmacist about herbs you use regularly, especially if you take the pill, antidepressants, blood thinners or blood-pressure medicine.",
+  "Pregnant, trying, or breastfeeding? Stick to food amounts and ask your midwife before using herbs medicinally.",
+  "Daisy-family allergy (ragweed, chrysanthemum)? Avoid chamomile, calendula, yarrow, feverfew and echinacea.",
+  "Never swallow essential oils. Keep them away from cats and small children.",
+  "Steep herbs in water in the fridge, and drink within 24 hours. Fresh herbs or garlic in oil: fridge, 4 days.",
+  "Grow your own, or buy from food suppliers. Don't forage plants you can't identify with total certainty.",
+  "Herbs are for everyday comfort. Chest pain, trouble breathing, a high fever that won't drop, or thoughts of harming yourself need real help: 999, 111 or Samaritans on 116 123."
+];
+
+/* ---------- CYCLE & MOON NOTES (honest framing) ---------- */
+const CYCLE_PHASES = {
+  menstrual: {
+    name: "Menstrual", short: "Period",
+    feel: "Lower energy is common. Rest counts as a practice.",
+    ideas: ["Heat on your lower tummy. Good evidence it eases cramps.", "Ginger tea. Some evidence for period pain.", "An iron-rich meal: lentil dal or white beans with parsley and lemon."],
+    note: "See a GP if periods are very heavy (soaking through every 1–2 hours), very painful, or stop you living your life."
+  },
+  follicular: {
+    name: "Follicular", short: "Follicular",
+    feel: "Many people notice energy and mood lifting.",
+    ideas: ["A good week for garden jobs and trying a new recipe.", "Sow, pot on, plan."],
+    note: "Phase timings are estimates from your average cycle."
+  },
+  ovulatory: {
+    name: "Ovulation (estimated)", short: "Ovulation*",
+    feel: "Some people feel most social around now.",
+    ideas: ["Share a recipe or creation with a friend.", "Fresh, bright food: salsa verde, salads."],
+    note: "This is an estimate. App-predicted fertile days are NOT reliable contraception."
+  },
+  luteal: {
+    name: "Luteal", short: "Luteal",
+    feel: "Premenstrual symptoms can appear in the last week for some people.",
+    ideas: ["A wind-down tea ritual in the evening (chamomile, lemon balm).", "Regular meals; going easy on caffeine and alcohol helps some people.", "Gentle movement. Exercise has some evidence for easing PMS."],
+    note: "Severe low mood before periods could be PMDD, which is treatable. Talk to your GP."
+  }
+};
+
+const MOON_NOTES = {
+  "New Moon":        { ritual: "Set an intention. Plan what you'll sow or make this month.", folk: "Folklore: rest the soil." },
+  "Waxing Crescent": { ritual: "Begin something small. Start a new journal experiment.", folk: "Folklore: sow leafy herbs." },
+  "First Quarter":   { ritual: "Check in on your intention. Tend, water, pot on.", folk: "Folklore: sow herbs grown for seed and flowers." },
+  "Waxing Gibbous":  { ritual: "Refine. Adjust a recipe that nearly worked.", folk: "Folklore: a good time to take cuttings." },
+  "Full Moon":       { ritual: "Gather and give thanks. Harvest, dry, bottle.", folk: "Folklore: harvest herbs at their most potent." },
+  "Waning Gibbous":  { ritual: "Share what you've made or learnt.", folk: "Folklore: plant roots and bulbs, like garlic." },
+  "Last Quarter":    { ritual: "Clear out. Sort your stores and compost old jars.", folk: "Folklore: weed and prune." },
+  "Waning Crescent": { ritual: "Rest and reflect. Read back through your journal.", folk: "Folklore: let the garden rest." }
+};
+
+/* ---------- DAILY HERB NOTES ---------- */
+const TIPS = [
+  "Pick herbs mid-morning, after the dew dries and before the sun gets hot. That's when their scent is strongest.",
+  "Cover your tea while it steeps. The fragrant oils in mint, chamomile and lemon balm escape with the steam.",
+  "Woody herbs (rosemary, thyme, sage, oregano) dry well. Soft herbs (basil, coriander, parsley) freeze better.",
+  "Never cut lavender back into bare brown wood. It rarely regrows from there.",
+  "Most herbs come from dry Mediterranean hillsides. More die from too much water than too little.",
+  "Raise pots on 'pot feet' in winter so roots aren't sitting in cold water.",
+  "One supermarket basil pot is really 20 crowded seedlings. Split it into 4 pots and it'll thrive.",
+  "Mint stems root in a glass of water in about a week. Free plants!",
+  "Garlic needs a cold winter to split into cloves. October and November are the time to plant.",
+  "Parsley seed can take 6 weeks to germinate. Soak it overnight to speed things up.",
+  "Chamomile seed needs light to germinate. Press it onto the surface; don't bury it.",
+  "Dill hates being moved. Sow it exactly where you want it to grow.",
+  "Keep dill and fennel apart. They cross-pollinate and their seed turns muddled.",
+  "Coriander bolts in heat. In summer, give it part shade and keep it watered.",
+  "Deadhead calendula and it'll keep flowering until the first hard frost.",
+  "Rich soil makes nasturtiums all leaves and no flowers. Be mean to them.",
+  "Store dried herbs whole and crumble them just before use. They keep their flavour much longer.",
+  "Light is the enemy of dried herbs. Use dark glass, or keep clear jars in a cupboard.",
+  "Dried herbs are about three times stronger than fresh. Use 1 tsp dried for 1 tbsp fresh.",
+  "Label every jar with the herb and the date. Future you will be grateful.",
+  "Water-based herb mixes (rinses, infusions, home shampoos) have no preservative. Fridge them and use them quickly.",
+  "Vinegar is acidic enough to steep herbs safely for weeks. Water and oil are not.",
+  "Fresh garlic in oil at room temperature can grow botulism. Fridge it and use within 4 days.",
+  "Only sweet bay is edible. Cherry laurel looks similar and is poisonous.",
+  "Daisy-family allergy? Watch out for chamomile, calendula, yarrow, feverfew and echinacea.",
+  "Essential oils are 50–100 times more concentrated than the plant. Never swallow them.",
+  "Cats can't process many essential oils. Keep diffusers away from them.",
+  "St John's wort makes the contraceptive pill less effective. Tell your GP if you take it.",
+  "Ask a pharmacist about herb and medicine interactions. It's free and you don't need an appointment.",
+  "In the UK, a 'THR' number on a herbal product means it's been checked for quality and safety.",
+  "Be wary of any claim with an exact number of days and no source.",
+  "'Flushes toxins' is a red flag. Ask which toxins, and how they'd be measured.",
+  "A study in mice or in a petri dish is a starting point, not proof.",
+  "Honey eases coughs. It's in UK NICE guidance, but never give it to babies under one.",
+  "Ginger has good evidence for nausea, including travel sickness.",
+  "Heat on your lower tummy has good evidence for easing period cramps.",
+  "Parsley and lemon add vitamin C, which helps you absorb iron from beans and lentils.",
+  "Grind flaxseed before eating it. Whole seeds pass straight through you.",
+  "Mint is a thug. Always grow it in a pot, even if the pot goes in the ground.",
+  "Pinch out the flowering tips of basil to keep it leafy.",
+  "Rosemary flowers are edible, sweet and loved by early bees.",
+  "Chive flowers make pretty pink vinegar. Steep them in white wine vinegar for two weeks.",
+  "Sage flavour is strongest in cold weather, which is perfect for winter stuffing.",
+  "Thyme grows happily in a crack in paving. It loves poor, gritty soil.",
+  "Take herb cuttings in the morning while stems are full of water.",
+  "Put a clear plastic bag over cuttings to keep them humid while they root.",
+  "Lavender seed germinates better after 3–4 weeks in the fridge. That's called cold stratification.",
+  "Echinacea flowers in its second year. Patience is part of the craft.",
+  "Bring a pot of chives or mint indoors in October for winter picking.",
+  "Leave some herbs to flower. Bees and hoverflies need them in late summer.",
+  "Don't forage white flat-topped flowers. Hemlock is deadly and looks like several herbs.",
+  "Journal tip: write down what you changed AND how it turned out. That's how a recipe becomes yours.",
+  "One variable at a time. Change one thing per experiment so you know what made the difference.",
+  "Rate experiments honestly. A 2-star tea teaches you as much as a 5-star one.",
+  "Check your Stores once a month. Compost old dried herbs; they've lost their scent anyway.",
+  "Tea tastes bitter? Steep for less time, or use water just off the boil rather than boiling.",
+  "Melt-and-pour soap is real soap without the dangerous lye stage. Perfect for beginners.",
+  "Patch-test new skin products on your inner arm and wait 24 hours.",
+  "Comfrey is a brilliant fertiliser and a liver hazard if eaten. Feed it to plants, not people.",
+  "The moon's pull on garden soil is tiny. Enjoy moon rituals for their rhythm, not their physics.",
+  "A full moon is a good night to sit with a cup of tea and read back through your journal.",
+  "Herbs are best used alongside medical care, never instead of it.",
+  "Herb pots need drainage holes. Without them, roots rot.",
+  "Terracotta pots dry out fast in summer and protect roots from waterlogging in winter.",
+  "Repot shop-bought herbs into fresh compost straight away. They're grown for quick sale, not long life.",
+  "Snip chives 3cm above the soil and they regrow in a few weeks.",
+  "Bay leaves keep their flavour for a year dried. Pick a few each season for gifts.",
+  "Make herb salt with your autumn rosemary and thyme. It's a beautiful winter gift.",
+  "Hibiscus tea can lower blood pressure a little. If you take medicine for it, check with a pharmacist first."
+];
+
+/* ============================================================
+   HEDGE & MOON — botanical illustrations & moon drawing
+   Every herb is drawn from its art recipe, seeded by its id,
+   so each plant looks the same every time it's drawn.
+   ============================================================ */
+
+function hashStr(s) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function rng(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const f1 = n => Math.round(n * 10) / 10;
+
+function qPoint(p0, p1, p2, t) {
+  const u = 1 - t;
+  return [u*u*p0[0] + 2*u*t*p1[0] + t*t*p2[0], u*u*p0[1] + 2*u*t*p1[1] + t*t*p2[1]];
+}
+function qTangent(p0, p1, p2, t) {
+  return [2*(1-t)*(p1[0]-p0[0]) + 2*t*(p2[0]-p1[0]), 2*(1-t)*(p1[1]-p0[1]) + 2*t*(p2[1]-p1[1])];
+}
+
+function leafShape(kind, r) {
+  // drawn pointing along +x from the origin
+  switch (kind) {
+    case "needle": { const L = 12 + r()*4, W = 1.6; return `<path d="M0,0 Q${f1(L/2)},${-W} ${f1(L)},0 Q${f1(L/2)},${W} 0,0Z"/>`; }
+    case "tiny":   { const L = 5 + r()*2, W = 2.6; return `<path d="M0,0 Q${f1(L/2)},${-W} ${f1(L)},0 Q${f1(L/2)},${W} 0,0Z"/>`; }
+    case "oval":   { const L = 15 + r()*5, W = 6 + r()*2; return `<path d="M0,0 C${f1(L*.25)},${-W} ${f1(L*.75)},${-W} ${f1(L)},0 C${f1(L*.75)},${W} ${f1(L*.25)},${W} 0,0Z"/><path d="M1,0 L${f1(L-2)},0" fill="none" class="vein"/>`; }
+    case "bay":    { const L = 22 + r()*5, W = 6.5; return `<path d="M0,0 C${f1(L*.3)},${-W} ${f1(L*.7)},${-W*.8} ${f1(L)},0 C${f1(L*.7)},${W*.8} ${f1(L*.3)},${W} 0,0Z"/><path d="M1,0 L${f1(L-2)},0" fill="none" class="vein"/>`; }
+    case "serrated": {
+      const L = 15 + r()*4, W = 7, n = 6; let top = "M0,0";
+      for (let i = 1; i <= n; i++) {
+        const x = L * i / n, w = W * Math.sin(Math.PI * i / n) * 0.95 + 0.4;
+        const xm = L * (i - 0.5) / n, wm = W * Math.sin(Math.PI * (i - .5) / n) * 0.75;
+        top += ` L${f1(xm)},${f1(-wm)} L${f1(x)},${f1(-w)}`;
+      }
+      // rebuild bottom edge returning to origin
+      let back = "";
+      for (let i = n; i >= 1; i--) {
+        const x = L * (i - 1) / n, w = i - 1 === 0 ? 0 : W * Math.sin(Math.PI * (i - 1) / n) * 0.95 + 0.4;
+        const xm = L * (i - 0.5) / n, wm = W * Math.sin(Math.PI * (i - .5) / n) * 0.75;
+        back += ` L${f1(xm)},${f1(wm)} L${f1(x)},${f1(w)}`;
+      }
+      return `<path d="${top} L${f1(L)},0${back}Z"/><path d="M1,0 L${f1(L-3)},0" fill="none" class="vein"/>`;
+    }
+    case "lobed": {
+      const L = 9 + r()*3;
+      let s = "";
+      [-38, 0, 38].forEach(a => {
+        s += `<g transform="rotate(${a})"><path d="M0,0 C${f1(L*.3)},-4.5 ${f1(L*.8)},-4.5 ${f1(L)},0 C${f1(L*.8)},4.5 ${f1(L*.3)},4.5 0,0Z"/></g>`;
+      });
+      return `<g transform="translate(3,0)">${s}</g><path d="M0,0 L3,0" fill="none"/>`;
+    }
+    case "feathery": {
+      const L = 16 + r()*4; let s = `<path d="M0,0 L${f1(L)},0" fill="none" class="frond"/>`;
+      for (let i = 1; i < 6; i++) {
+        const x = L * i / 6, l = 5 * (1 - i / 7);
+        s += `<path d="M${f1(x)},0 l${f1(l*.8)},${f1(-l)} M${f1(x)},0 l${f1(l*.8)},${f1(l)}" fill="none" class="frond"/>`;
+      }
+      return s;
+    }
+    case "round": {
+      const R = 7 + r()*3;
+      let s = `<path d="M0,0 L${f1(R*.9)},0" fill="none" class="frond"/><circle cx="${f1(R*1.9)}" cy="0" r="${f1(R)}"/>`;
+      for (let a = 0; a < 360; a += 45) {
+        const rad = a * Math.PI / 180;
+        s += `<path d="M${f1(R*1.9)},0 l${f1(Math.cos(rad)*R*.85)},${f1(Math.sin(rad)*R*.85)}" fill="none" class="vein"/>`;
+      }
+      return s;
+    }
+  }
+  return "";
+}
+
+function flowerShape(kind, fc, cc, r) {
+  switch (kind) {
+    case "spike": {
+      let s = "";
+      for (let i = 0; i < 8; i++) {
+        const y = -i * 3.4, w = 3.2 - i * 0.25;
+        s += `<ellipse cx="${f1(-w*.6)}" cy="${f1(y)}" rx="${f1(w*.75)}" ry="2.1" fill="${fc}"/><ellipse cx="${f1(w*.6)}" cy="${f1(y-1.5)}" rx="${f1(w*.75)}" ry="2.1" fill="${fc}"/>`;
+      }
+      return s;
+    }
+    case "globe": {
+      let s = "";
+      for (let i = 0; i < 14; i++) {
+        const a = r() * Math.PI * 2, d = Math.sqrt(r()) * 6;
+        s += `<circle cx="${f1(Math.cos(a)*d)}" cy="${f1(Math.sin(a)*d - 5)}" r="${f1(1.8 + r()*1.2)}" fill="${fc}"/>`;
+      }
+      return s;
+    }
+    case "umbel": {
+      let s = "";
+      for (let i = 0; i < 9; i++) {
+        const a = (-150 + i * 15) * Math.PI / 180, l = 11 + r()*3;
+        const x = Math.cos(a) * l, y = Math.sin(a) * l;
+        s += `<path d="M0,0 L${f1(x)},${f1(y)}" fill="none" class="frond"/>`;
+        for (let j = 0; j < 4; j++) s += `<circle cx="${f1(x + (r()-.5)*4)}" cy="${f1(y + (r()-.5)*3 - 1)}" r="1.2" fill="${fc}"/>`;
+      }
+      return s;
+    }
+    case "daisy": {
+      let s = ""; const n = 13, R = 7.5;
+      for (let i = 0; i < n; i++) {
+        const a = i * 360 / n;
+        s += `<g transform="rotate(${f1(a)})"><ellipse cx="${f1(R*.62)}" cy="0" rx="${f1(R*.55)}" ry="1.9" fill="${fc}"/></g>`;
+      }
+      return s + `<circle cx="0" cy="0" r="3.1" fill="${cc}"/>`;
+    }
+    case "trumpet": {
+      let s = "";
+      for (let i = 0; i < 5; i++) {
+        const a = i * 72 - 90;
+        s += `<g transform="rotate(${a})"><ellipse cx="4.6" cy="0" rx="4.8" ry="3.6" fill="${fc}"/></g>`;
+      }
+      return s + `<circle cx="0" cy="0" r="1.8" fill="#f5c542"/>`;
+    }
+  }
+  return "";
+}
+
+function herbArt(herb, opts) {
+  const o = opts || {};
+  const a = herb.art, r = rng(hashStr(herb.id));
+  const cc = a.cc || (a.fc === "#d872a6" ? "#8a4a2b" : a.fc === "#f39a2b" ? "#b8561a" : "#e3b23c");
+  let body = "", flowers = "";
+  const base = [60, 138];
+
+  if (a.leaf === "grass") {
+    const n = 9;
+    for (let i = 0; i < n; i++) {
+      const ex = 60 + (i - (n-1)/2) * 6 + (r()-.5)*4, ey = 30 + r()*30;
+      const cx = 60 + (i - (n-1)/2) * 2.5, cy = 90;
+      body += `<path d="M${f1(58 + i*0.5)},138 Q${f1(cx)},${cy} ${f1(ex)},${f1(ey)}" fill="none" class="blade" stroke="${a.lc}"/>`;
+      if (a.flower !== "none" && i % 3 === 1) {
+        flowers += `<g transform="translate(${f1(ex)},${f1(ey)})">${flowerShape(a.flower, a.fc, cc, r)}</g>`;
+      }
+    }
+  } else {
+    const stems = a.leaf === "tiny" ? 5 : a.leaf === "round" ? 4 : 3;
+    for (let s = 0; s < stems; s++) {
+      const spread = (s - (stems - 1) / 2);
+      const p0 = [base[0] + spread * 3, base[1]];
+      const p2 = [60 + spread * 26 + (r() - .5) * 10, 34 + r() * 22 + Math.abs(spread) * 8];
+      const p1 = [60 + spread * 6 + (r() - .5) * 14, 92];
+      body += `<path d="M${f1(p0[0])},${f1(p0[1])} Q${f1(p1[0])},${f1(p1[1])} ${f1(p2[0])},${f1(p2[1])}" fill="none" class="stem"/>`;
+      const count = a.leaf === "tiny" ? 14 : a.leaf === "needle" ? 16 : a.leaf === "round" ? 3 : a.leaf === "bay" ? 5 : 6;
+      for (let i = 0; i < count; i++) {
+        const t = 0.18 + (i / count) * 0.74;
+        const p = qPoint(p0, p1, p2, t), tg = qTangent(p0, p1, p2, t);
+        const ang = Math.atan2(tg[1], tg[0]) * 180 / Math.PI;
+        const side = i % 2 === 0 ? 1 : -1;
+        const off = a.leaf === "round" ? 70 : a.leaf === "needle" ? 38 : 48;
+        const scale = 1 - t * 0.35;
+        body += `<g transform="translate(${f1(p[0])},${f1(p[1])}) rotate(${f1(ang + side * off)}) scale(${f1(scale)})" class="leaf" fill="${a.lc}">${leafShape(a.leaf, r)}</g>`;
+      }
+      if (a.flower !== "none") {
+        const tg = qTangent(p0, p1, p2, 1);
+        const ang = Math.atan2(tg[1], tg[0]) * 180 / Math.PI + 90;
+        flowers += `<g transform="translate(${f1(p2[0])},${f1(p2[1])}) rotate(${a.flower === "spike" ? f1(ang) : 0})">${flowerShape(a.flower, a.fc, cc, r)}</g>`;
+      }
+    }
+  }
+  const cls = o.cls ? ` class="${o.cls}"` : "";
+  body = body.split('class="frond"').join(`class="frond" style="stroke:${a.lc}"`);
+  flowers = flowers.split('class="frond"').join(`class="frond" style="stroke:${a.lc}"`);
+  return `<svg${cls} viewBox="0 0 120 145" role="img" aria-label="Illustration of ${herb.name}" xmlns="http://www.w3.org/2000/svg"><g class="herb-art">${body}${flowers}</g></svg>`;
+}
+
+/* ---------- MOON ---------- */
+const SYNODIC = 29.530588853;
+const KNOWN_NEW = Date.UTC(2000, 0, 6, 18, 14, 0); // reference new moon
+
+function moonInfo(date) {
+  const d = date || new Date();
+  const days = (d.getTime() - KNOWN_NEW) / 86400000;
+  let age = days % SYNODIC; if (age < 0) age += SYNODIC;
+  const frac = age / SYNODIC;
+  const illum = (1 - Math.cos(2 * Math.PI * frac)) / 2;
+  let name;
+  if (age < 1.0 || age > SYNODIC - 1.0) name = "New Moon";
+  else if (age < 6.38) name = "Waxing Crescent";
+  else if (age < 8.38) name = "First Quarter";
+  else if (age < 13.77) name = "Waxing Gibbous";
+  else if (age < 15.77) name = "Full Moon";
+  else if (age < 21.15) name = "Waning Gibbous";
+  else if (age < 23.15) name = "Last Quarter";
+  else name = "Waning Crescent";
+  const toFull = ((SYNODIC / 2 - age) + SYNODIC) % SYNODIC;
+  const toNew = SYNODIC - age;
+  return {
+    age, frac, illum, name,
+    nextFull: new Date(d.getTime() + toFull * 86400000),
+    nextNew: new Date(d.getTime() + toNew * 86400000)
+  };
+}
+
+function moonSVG(frac, size, label) {
+  const R = 40, cx = 50, cy = 50;
+  const illum = (1 - Math.cos(2 * Math.PI * frac)) / 2;
+  const waxing = frac < 0.5;
+  const rx = f1(Math.abs(Math.cos(2 * Math.PI * frac)) * R);
+  const gibbous = illum > 0.5;
+  let path;
+  if (illum < 0.02) path = "";
+  else if (illum > 0.98) path = `<circle cx="${cx}" cy="${cy}" r="${R}" class="moon-lit"/>`;
+  else {
+    const outerSweep = waxing ? 1 : 0;
+    const innerSweep = waxing ? (gibbous ? 1 : 0) : (gibbous ? 0 : 1);
+    path = `<path class="moon-lit" d="M${cx},${cy - R} A${R},${R} 0 0 ${outerSweep} ${cx},${cy + R} A${rx},${R} 0 0 ${innerSweep} ${cx},${cy - R}Z"/>`;
+  }
+  return `<svg class="moon" width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="${label || "Moon phase"}"><circle cx="${cx}" cy="${cy}" r="${R + 6}" class="moon-halo"/><circle cx="${cx}" cy="${cy}" r="${R}" class="moon-dark"/>${path}<circle cx="${cx}" cy="${cy}" r="${R}" class="moon-rim"/></svg>`;
+}
+
+/* ============================================================
+   HEDGE & MOON — app
+   Data lives in IndexedDB on this device only.
+   UPGRADE RULES (for whoever edits this next):
+   1. Never delete or rename an object store. Only add new ones
+      in a new DB_UPGRADES step and bump DB_VERSION.
+   2. When the shape of saved records changes, bump
+      SCHEMA_VERSION and add a DATA_UPGRADES step that fills in
+      or converts the old records. Old fields are never removed.
+   3. Bump APP_VERSION (and CACHE in sw.js) for every release.
+   ============================================================ */
+"use strict";
+
+const APP_VERSION = "1.0.0";
+const SCHEMA_VERSION = 1;
+const DB_NAME = "hedge-and-moon";
+const DB_VERSION = 1;
+
+const DB_UPGRADES = {
+  1(db) {
+    db.createObjectStore("meta", { keyPath: "key" });
+    db.createObjectStore("journal", { keyPath: "id" });
+    db.createObjectStore("inventory", { keyPath: "id" });
+    db.createObjectStore("creations", { keyPath: "id" });
+  }
+};
+const DATA_UPGRADES = {
+  // 2: (data) => { data.journal.forEach(e => { if (e.mood === undefined) e.mood = ""; }); }
+};
+
+/* ---------------- storage ---------------- */
+const Store = {
+  db: null, memory: false,
+  mem: { meta: new Map(), journal: new Map(), inventory: new Map(), creations: new Map() },
+  async open() {
+    if (!("indexedDB" in window)) { this.memory = true; return; }
+    try {
+      this.db = await Promise.race([
+        new Promise((res, rej) => {
+          const req = indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = req.result;
+            for (let v = e.oldVersion + 1; v <= DB_VERSION; v++) if (DB_UPGRADES[v]) DB_UPGRADES[v](db, req.transaction);
+          };
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => rej(req.error);
+          req.onblocked = () => rej(new Error("Database blocked by another open copy of the app"));
+        }),
+        new Promise((_, rej) => setTimeout(() => rej(new Error("Storage timed out")), 4000))
+      ]);
+      this.db.onversionchange = () => { try { this.db.close(); } catch (e) {} location.reload(); };
+    } catch (e) {
+      console.warn("Storage unavailable, using memory only:", e);
+      this.memory = true;
+    }
+  },
+  keyOf(store, v) { return store === "meta" ? v.key : v.id; },
+  _req(store, mode, fn) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, mode);
+      const r = fn(tx.objectStore(store));
+      tx.oncomplete = () => res(r && r.result);
+      tx.onerror = () => rej(tx.error);
+      tx.onabort = () => rej(tx.error);
+    });
+  },
+  async all(store) {
+    if (this.memory) return [...this.mem[store].values()];
+    return (await this._req(store, "readonly", s => s.getAll())) || [];
+  },
+  async put(store, val) {
+    if (this.memory) { this.mem[store].set(this.keyOf(store, val), val); return; }
+    try { await this._req(store, "readwrite", s => s.put(val)); }
+    catch (e) { toast(`<div><b>Couldn't save.</b> ${esc(e && e.message || "Storage error")}. Try freeing up space on your phone.</div>`); throw e; }
+  },
+  async del(store, key) {
+    if (this.memory) { this.mem[store].delete(key); return; }
+    await this._req(store, "readwrite", s => s.delete(key));
+  }
+};
+
+/* ---------------- state ---------------- */
+const DEFAULT_SETTINGS = {
+  name: "", profile: "female", onboarded: false, theme: "night", tips: true, lastTipSlot: "",
+  cycle: { lastStart: "", length: 28, period: 5, history: [] }
+};
+const S = {
+  settings: structuredCloneSafe(DEFAULT_SETTINGS),
+  journal: [], inventory: [], creations: [], photos: {},
+  view: { name: "today", params: {} }, stack: [],
+  herbFilter: "all", herbQuery: "", makeCat: "tea", makeQuery: "", jHerb: "", storeFilter: "all",
+  calMonth: new Date().getMonth() + 1, tipOffset: 0, updated: false, storageWarned: false
+};
+function structuredCloneSafe(o) { return JSON.parse(JSON.stringify(o)); }
+
+const HERB = Object.fromEntries(HERBS.map(h => [h.id, h]));
+const PANT = Object.fromEntries(PANTRY.map(p => [p.id, p]));
+const MAKE = Object.fromEntries(MAKES.map(m => [m.id, m]));
+const CATS = {
+  tea: "Teas & drinks", kitchen: "Kitchen craft", meal: "Meals for one", body: "Apothecary", home: "Home & ritual", mine: "My makes"
+};
+
+async function loadAll() {
+  const [meta, journal, inventory, creations] = await Promise.all(["meta","journal","inventory","creations"].map(s => Store.all(s)));
+  const M = Object.fromEntries(meta.map(m => [m.key, m.value]));
+  S.settings = Object.assign(structuredCloneSafe(DEFAULT_SETTINGS), M.settings || {});
+  S.settings.cycle = Object.assign(structuredCloneSafe(DEFAULT_SETTINGS.cycle), (M.settings && M.settings.cycle) || {});
+  S.photos = M.photos || {};
+  S.journal = journal; S.inventory = inventory; S.creations = creations;
+
+  // record-shape upgrades
+  const schema = M.schema || SCHEMA_VERSION;
+  if (schema < SCHEMA_VERSION) {
+    const data = { journal: S.journal, inventory: S.inventory, creations: S.creations, settings: S.settings };
+    for (let v = schema + 1; v <= SCHEMA_VERSION; v++) if (DATA_UPGRADES[v]) DATA_UPGRADES[v](data);
+    for (const e of S.journal) await Store.put("journal", e);
+    for (const e of S.inventory) await Store.put("inventory", e);
+    for (const e of S.creations) await Store.put("creations", e);
+    await saveSettings();
+  }
+  await Store.put("meta", { key: "schema", value: SCHEMA_VERSION });
+  if (M.appVersion && M.appVersion !== APP_VERSION) S.updated = M.appVersion;
+  await Store.put("meta", { key: "appVersion", value: APP_VERSION });
+}
+async function saveSettings() { await Store.put("meta", { key: "settings", value: S.settings }); }
+async function savePhotos() { await Store.put("meta", { key: "photos", value: S.photos }); }
+function sortByDateDesc(a, b) { return (b.date || "").localeCompare(a.date || "") || (b.createdAt || 0) - (a.createdAt || 0); }
+
+/* ---------------- helpers ---------------- */
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function pad(n) { return String(n).padStart(2, "0"); }
+function isoOf(d) { return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+function todayISO() { return isoOf(new Date()); }
+function parseISO(s) { if (!s) return null; const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d, 12); }
+function addDays(iso, n) { const d = parseISO(iso); d.setDate(d.getDate() + n); return isoOf(d); }
+function daysUntil(iso) { const a = parseISO(todayISO()), b = parseISO(iso); return Math.round((b - a) / 86400000); }
+function fmtDate(iso, opts) {
+  const d = parseISO(iso); if (!d) return "";
+  return d.toLocaleDateString("en-GB", opts || { weekday: "short", day: "numeric", month: "short" });
+}
+function fmtDateY(iso) { return fmtDate(iso, { day: "numeric", month: "short", year: "numeric" }); }
+function evBadge(ev) { const e = EVIDENCE[ev] || EVIDENCE.food; return `<span class="ev ev-${esc(ev)}" title="${esc(e.note)}">${esc(e.short)}</span>`; }
+function itemName(ref, custom) {
+  if (ref && HERB[ref]) return HERB[ref].name;
+  if (ref && PANT[ref]) return PANT[ref].name;
+  return custom || "Something";
+}
+function herbNames(ids) { return (ids || []).filter(id => HERB[id] || PANT[id]).map(id => itemName(id)).join(", "); }
+function inIframe() { try { return window.self !== window.top; } catch (e) { return true; } }
+
+const ICON = {
+  moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  sprig: '<path d="M12 21V8"/><path d="M12 13c-3 0-5-2-5-5 3 0 5 2 5 5z"/><path d="M12 10c3 0 5-2 5-5-3 0-5 2-5 5z"/><path d="M12 18c-2.5 0-4.5-1.5-4.5-4 2.5 0 4.5 1.5 4.5 4z"/><path d="M12 15.5c2.5 0 4.5-1.5 4.5-4-2.5 0-4.5 1.5-4.5 4z"/>',
+  cauldron: '<path d="M3.5 10.5h17"/><path d="M5 10.5c0 4.4 3.1 7.5 7 7.5s7-3.1 7-7.5"/><path d="M8.5 17.5 7.5 21M15.5 17.5l1 3.5"/><path d="M9.5 7.5c0-1.5 1.2-2 1.2-3.5M13.5 7.5c0-1.5 1.2-2 1.2-3.5"/>',
+  book: '<path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5z"/><path d="M5 20.5A2.5 2.5 0 0 1 7.5 18H19v3H7.5"/><path d="M9 7.5h6"/>',
+  jar: '<path d="M8 3h8"/><path d="M9 3v3M15 3v3"/><path d="M7 6h10a1 1 0 0 1 1 1v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7a1 1 0 0 1 1-1z"/><path d="M9 12h6M9 15h4"/>',
+  eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  back: '<path d="M15 18l-6-6 6-6"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  share: '<path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>',
+  receive: '<path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/>',
+  camera: '<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>'
+};
+function icon(name) { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name]}</svg>`; }
+const BRAND = `<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21 4.5A12 12 0 1 0 27.5 21 9.5 9.5 0 0 1 21 4.5z" fill="var(--brass)"/><path d="M16 27V14" stroke="var(--moss)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M16 19c-2.6 0-4.2-1.6-4.2-4.2 2.6 0 4.2 1.6 4.2 4.2zM16 16.5c2.4 0 4-1.5 4-4-2.4 0-4 1.5-4 4z" fill="var(--moss)"/></svg>`;
+
+/* ---------------- moon & cycle ---------------- */
+function cycleState(dateISO) {
+  const c = S.settings.cycle;
+  if (S.settings.profile !== "female" || !c.lastStart) return null;
+  const len = Math.max(20, Math.min(45, +c.length || 28));
+  const per = Math.max(2, Math.min(10, +c.period || 5));
+  const diff = Math.round((parseISO(dateISO || todayISO()) - parseISO(c.lastStart)) / 86400000);
+  if (diff < 0) return null;
+  const day = (diff % len) + 1;
+  const ov = len - 14;
+  let phase;
+  if (day <= per) phase = "menstrual";
+  else if (day >= ov - 2 && day <= ov + 1) phase = "ovulatory";
+  else if (day < ov - 2) phase = "follicular";
+  else phase = "luteal";
+  const next = addDays(c.lastStart, (Math.floor(diff / len) + 1) * len);
+  return { day, len, per, ov, phase, next, stale: diff >= len + 7, diff };
+}
+const PHASE_COLOR = { menstrual: "var(--danger)", follicular: "var(--moss)", ovulatory: "var(--brass)", luteal: "var(--accent)" };
+function cycleRing(cs) {
+  const L = cs.len, r = 36, segs = [
+    ["menstrual", 0, cs.per], ["follicular", cs.per, cs.ov - 3], ["ovulatory", cs.ov - 3, cs.ov + 1], ["luteal", cs.ov + 1, L]
+  ];
+  let arcs = "";
+  for (const [ph, a, b] of segs) {
+    if (b - a <= 0) continue;
+    arcs += `<circle class="ring-seg" cx="50" cy="50" r="${r}" pathLength="${L}" stroke="${PHASE_COLOR[ph]}" stroke-dasharray="${Math.max(0, b - a - 0.35)} ${L}" stroke-dashoffset="${-a}" transform="rotate(-90 50 50)"/>`;
+  }
+  const ang = ((cs.day - 0.5) / L) * Math.PI * 2 - Math.PI / 2;
+  const dx = 50 + Math.cos(ang) * r, dy = 50 + Math.sin(ang) * r;
+  return `<svg width="92" height="92" viewBox="0 0 100 100" role="img" aria-label="Cycle day ${cs.day} of ${L}"><circle class="ring-track" cx="50" cy="50" r="${r}"/>${arcs}<circle class="ring-dot" cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="5.5"/><text class="ring-text" x="50" y="55" text-anchor="middle">${cs.day}</text><text class="ring-sub" x="50" y="68" text-anchor="middle">DAY</text></svg>`;
+}
+
+/* ---------------- tips ---------------- */
+function tipSlot(d) { const n = d || new Date(); return `${todayISO()}-${Math.floor(n.getHours() / 3)}`; }
+function tipFor(slot, offset) { return TIPS[(hashStr(slot) + (offset || 0)) % TIPS.length]; }
+async function maybeShowTip() {
+  if (!S.settings.onboarded || !S.settings.tips) return;
+  const slot = tipSlot();
+  if (S.settings.lastTipSlot === slot) return;
+  S.settings.lastTipSlot = slot; await saveSettings();
+  setTimeout(() => toast(`<div class="stack" style="gap:4px"><span class="label">Herb note</span><div class="tip-text">${esc(tipFor(slot, 11))}</div></div>`, { timeout: 12000, keep: true }), 1200);
+}
+
+/* ---------------- overlays ---------------- */
+function toast(html, opts) {
+  const o = opts || {};
+  const zone = document.getElementById("toasts");
+  if (!o.keep) zone.querySelectorAll(".toast:not([data-keep])").forEach(t => t.remove());
+  const el = document.createElement("div");
+  if (o.keep) el.dataset.keep = "1";
+  el.className = "toast"; el.setAttribute("role", "status");
+  el.innerHTML = `<div style="flex:1;min-width:0">${html}</div><button class="icon-btn" aria-label="Dismiss" style="width:32px;height:32px">${icon("close")}</button>`;
+  el.querySelector("button").onclick = () => el.remove();
+  zone.appendChild(el);
+  setTimeout(() => el.remove(), o.timeout || 2800);
+}
+function openSheet(html) {
+  closeSheet();
+  const scrim = document.createElement("div");
+  scrim.className = "scrim"; scrim.id = "scrim";
+  scrim.innerHTML = `<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;
+  scrim.addEventListener("click", e => { if (e.target === scrim && !scrim.dataset.locked) closeSheet(); });
+  document.body.appendChild(scrim);
+  return scrim.querySelector(".sheet");
+}
+function closeSheet() { const s = document.getElementById("scrim"); if (s) s.remove(); }
+function confirmSheet(title, body, okLabel, danger) {
+  return new Promise(resolve => {
+    const sh = openSheet(`<h2>${esc(title)}</h2><p class="muted">${esc(body)}</p><div class="btn-row"><button class="btn ghost" data-r="0">Cancel</button><button class="btn ${danger ? "danger" : "primary"}" data-r="1">${esc(okLabel)}</button></div>`);
+    sh.querySelectorAll("[data-r]").forEach(b => b.onclick = () => { closeSheet(); resolve(b.dataset.r === "1"); });
+  });
+}
+
+/* ---------------- theme ---------------- */
+function applyTheme() {
+  const t = S.settings.theme, root = document.documentElement;
+  if (t === "night") root.setAttribute("data-theme", "dark");
+  else if (t === "day") root.setAttribute("data-theme", "light");
+  else root.removeAttribute("data-theme");
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", getComputedStyle(root).getPropertyValue("--bg").trim() || "#16131c");
+}
+
+/* ---------------- navigation ---------------- */
+const TABS = [
+  { name: "today", label: "Today", icon: "moon" },
+  { name: "herbs", label: "Herbs", icon: "sprig" },
+  { name: "make", label: "Make", icon: "cauldron" },
+  { name: "journal", label: "Journal", icon: "book" },
+  { name: "stores", label: "Stores", icon: "jar" }
+];
+function go(name, params, opts) {
+  const o = opts || {};
+  if (o.tab) S.stack = [];
+  else if (!o.replace) S.stack.push(S.view);
+  S.view = { name, params: params || {} };
+  render(true);
+}
+function back() {
+  const prev = S.stack.pop();
+  S.view = prev || { name: "today", params: {} };
+  render(true);
+}
+
+function render(scrollTop) {
+  const v = VIEWS[S.view.name] || VIEWS.today;
+  const p = S.view.params;
+  const isRoot = !!v.root;
+  const title = typeof v.title === "function" ? v.title(p) : v.title;
+  const tab = v.tab;
+  const head = isRoot
+    ? `<div class="brand">${BRAND}<span class="brand-name">Hedge &amp; Moon</span></div>`
+    : `<button class="icon-btn" data-act="back" aria-label="Back">${icon("back")}</button><div class="page-title">${esc(title)}</div>`;
+  const storageNote = Store.memory && !S.storageWarned
+    ? `<div class="banner">This browser isn't letting the app save. Anything you add will be lost when you close it. Open the app from your home screen, or check you're not in a private window.</div>` : "";
+  document.getElementById("app").innerHTML = `
+    <header class="topbar">${head}
+      <button class="icon-btn" data-act="nav" data-to="truths" aria-label="Herb truths and myths">${icon("eye")}</button>
+      <button class="icon-btn" data-act="nav" data-to="settings" aria-label="Settings">${icon("gear")}</button>
+    </header>
+    <main id="main">${storageNote}${v.render(p)}</main>
+    <nav class="tabbar" aria-label="Sections"><div class="tabbar-inner">
+      ${TABS.map(t => `<button class="tab" data-act="tab" data-to="${t.name}" ${t.name === tab ? 'aria-current="page"' : ""}>${icon(t.icon)}<span>${t.label}</span></button>`).join("")}
+    </div></nav>`;
+  if (v.after) v.after(p);
+  if (scrollTop) window.scrollTo(0, 0);
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+const VIEWS = {};
+
+/* ---------------- TODAY ---------------- */
+function monthTasks(m) {
+  return CAL_KEYS.map(k => ({ ...k, herbs: HERBS.filter(h => (h.cal[k.key] || []).includes(m)) })).filter(g => g.herbs.length);
+}
+function storeStatus(it) {
+  const out = [];
+  if (it.bestBefore) {
+    const d = daysUntil(it.bestBefore);
+    if (d < 0) out.push({ cls: "past", text: "Past its best", rank: 0 });
+    else if (d <= 14) out.push({ cls: "soon", text: d === 0 ? "Use today" : `Use within ${d}d`, rank: 1 });
+  }
+  if (it.nextHarvest) {
+    const d = daysUntil(it.nextHarvest);
+    if (d <= 0) out.push({ cls: "info", text: "Harvest due", rank: 1 });
+    else if (d <= 7) out.push({ cls: "info", text: `Harvest in ${d}d`, rank: 2 });
+  }
+  return out;
+}
+VIEWS.today = {
+  root: true, tab: "today", title: "Today",
+  render() {
+    const now = new Date(), h = now.getHours(), m = now.getMonth() + 1;
+    const greet = h < 5 ? "Still up" : h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+    const name = S.settings.name ? `, ${esc(S.settings.name)}` : "";
+    const mi = moonInfo(now);
+    const mn = MOON_NOTES[mi.name];
+    const cs = cycleState();
+    const slot = tipSlot();
+    const tip = tipFor(slot, S.tipOffset);
+
+    const moonCard = `<div class="card">
+      <div class="moon-card">${moonSVG(mi.frac, 92, mi.name)}
+        <div class="stack" style="gap:4px;min-width:0">
+          <span class="label">The moon tonight</span>
+          <h2>${esc(mi.name)}</h2>
+          <span class="small muted tnum">${Math.round(mi.illum * 100)}% lit · full ${fmtDate(isoOf(mi.nextFull), { day: "numeric", month: "short" })} · new ${fmtDate(isoOf(mi.nextNew), { day: "numeric", month: "short" })}</span>
+        </div></div>
+      <p>${esc(mn.ritual)}</p>
+      <p class="small muted"><i>${esc(mn.folk)}</i> <a href="#" data-act="nav" data-to="truths" data-anchor="moon">Is that real?</a></p>
+    </div>`;
+
+    let cycleCard = "";
+    if (S.settings.profile === "female") {
+      if (!cs) {
+        cycleCard = `<div class="card"><span class="label">Your cycle</span><h3>See your cycle phases here</h3>
+          <p class="small muted">Add when your last period started. It's stored only on this phone.</p>
+          <div class="btn-row"><button class="btn primary" data-act="period-today">My period started today</button><button class="btn" data-act="nav" data-to="settings">Set a date</button></div></div>`;
+      } else {
+        const P = CYCLE_PHASES[cs.phase];
+        cycleCard = `<div class="card">
+          <div class="cycle-ring">${cycleRing(cs)}
+            <div class="stack" style="gap:4px;min-width:0"><span class="label">Your cycle</span><h2>${esc(P.name)}</h2>
+            <span class="small muted">Next period around ${fmtDate(cs.next, { day: "numeric", month: "short" })}</span></div></div>
+          <p>${esc(P.feel)}</p>
+          <ul class="list-plain small">${P.ideas.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
+          <p class="small muted">${esc(P.note)}</p>
+          ${cs.stale ? `<p class="small" style="color:var(--warn)">Your last logged period was ${cs.diff} days ago. Tap below when the next one starts so the phases stay accurate.</p>` : ""}
+          <div class="btn-row"><button class="btn small" data-act="period-today">Period started today</button></div>
+        </div>`;
+      }
+    }
+
+    const tasks = monthTasks(m);
+    const tasksHTML = tasks.map(g => `<div class="task-group"><div class="row" style="gap:8px;flex-wrap:nowrap"><span class="dot c-${g.key}"></span><b class="small">${esc(g.label)}</b></div>
+      <div class="chips">${g.herbs.map(hh => `<button class="chip" data-act="herb" data-id="${hh.id}">${esc(hh.name)}</button>`).join("")}</div></div>`).join("");
+
+    const due = S.inventory.map(it => ({ it, st: storeStatus(it) })).filter(x => x.st.length).sort((a, b) => a.st[0].rank - b.st[0].rank);
+    const remHTML = due.length ? `<section class="section"><div class="section-head"><h2>Needs attention</h2><button class="btn small ghost" data-act="tab" data-to="stores">Stores</button></div>
+      <div class="card" style="gap:0;padding-block:6px">${due.slice(0, 6).map(({ it, st }) => `<button class="reminder" data-act="store" data-id="${it.id}"><div style="flex:1;min-width:0"><b>${esc(itemName(it.herb, it.custom))}</b> <span class="muted small">${esc(it.form || "")}</span></div>${st.map(s => `<span class="pill ${s.cls}">${esc(s.text)}</span>`).join("")}</button>`).join("")}</div></section>` : "";
+
+    return `
+      <section class="hello stack" style="gap:4px"><span class="date">${now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</span><h1>${greet}${name}</h1></section>
+      <div class="sky ${cycleCard ? "two" : ""}">${moonCard}${cycleCard}</div>
+      <div class="card tip-card"><div class="row between"><span class="label">Herb note</span><button class="btn small ghost" data-act="next-tip">Another</button></div>
+        <p class="tip-text">${esc(tip)}</p></div>
+      <div class="quick">
+        <button class="btn" data-act="journal-new">${icon("book")}New journal entry</button>
+        <button class="btn" data-act="store-new">${icon("jar")}Add to stores</button>
+        <button class="btn" data-act="nav" data-to="receive">${icon("receive")}Receive a share</button>
+      </div>
+      ${remHTML}
+      <section class="section"><div class="section-head"><h2>${MONTHS_LONG[m - 1]} in the garden</h2><button class="btn small ghost" data-act="nav" data-to="calendar">${icon("calendar")}Whole year</button></div>
+        <div class="card" style="gap:0">${tasksHTML || '<p class="muted">A quiet month. Plan, read and rest.</p>'}</div></section>
+      <button class="card tap" data-act="nav" data-to="truths">
+        <span class="label">Herb truths</span><h3>Seen a viral herb hack?</h3>
+        <p class="small muted">Check it against the evidence before you try it. Includes how to spot a dodgy claim.</p></button>`;
+  }
+};
+
+/* ---------------- HERBS ---------------- */
+function herbMatches(h) {
+  const q = S.herbQuery.trim().toLowerCase();
+  if (q && !(h.name + " " + h.latin + " " + h.family).toLowerCase().includes(q)) return false;
+  const m = new Date().getMonth() + 1;
+  switch (S.herbFilter) {
+    case "full": return h.sun.includes("full");
+    case "part": return h.sun.includes("part");
+    case "pots": return h.container;
+    case "now": return CAL_KEYS.some(k => (h.cal[k.key] || []).includes(m));
+  }
+  return true;
+}
+function herbCard(h) {
+  const m = new Date().getMonth() + 1;
+  const now = CAL_KEYS.filter(k => (h.cal[k.key] || []).includes(m));
+  const photo = S.photos[h.id];
+  return `<button class="card tap herb-card" data-act="herb" data-id="${h.id}">
+    <div class="art-wrap">${photo ? `<img src="${photo}" alt="Your photo of ${esc(h.name)}">` : herbArt(h)}</div>
+    <h3>${esc(h.name)}</h3><span class="latin">${esc(h.latin)}</span>
+    <span class="now">${now.length ? now.map(k => `<span class="dot c-${k.key}"></span>${esc(k.label)}`).join(" ") : "Resting this month"}</span>
+  </button>`;
+}
+function herbListHTML() {
+  const list = HERBS.filter(herbMatches);
+  return list.length ? `<div class="grid2 wide">${list.map(herbCard).join("")}</div>` : `<div class="empty">No herbs match. Try a different word or filter.</div>`;
+}
+VIEWS.herbs = {
+  root: true, tab: "herbs", title: "Herbs",
+  render() {
+    const f = [["all","All"],["now","Jobs this month"],["full","Full sun"],["part","Part shade"],["pots","Good in pots"]];
+    return `<section class="section"><div class="section-head"><h1>Herb garden</h1><button class="btn small" data-act="nav" data-to="calendar">${icon("calendar")}Year</button></div>
+      <p class="muted">${HERBS.length} herbs that grow well in the UK, with when to sow, move outside and pick.</p>
+      <input class="input" id="herb-q" type="search" placeholder="Search herbs" value="${esc(S.herbQuery)}" aria-label="Search herbs">
+      <div class="chips scroll">${f.map(([k, l]) => `<button class="chip" data-act="herb-filter" data-val="${k}" aria-pressed="${S.herbFilter === k}">${l}</button>`).join("")}</div>
+      <div id="herb-list">${herbListHTML()}</div></section>
+      <section class="section"><h2>Kitchen-cupboard botanicals</h2>
+        <p class="muted small">Popular online, but they don't grow outside in the UK. Here's what the evidence says.</p>
+        <div class="stack">${PANTRY.map(p => `<button class="card tap" data-act="pantry" data-id="${p.id}"><div class="row between"><h3>${esc(p.name)}</h3><span class="chips">${p.evidence.map(e => evBadge(e.ev)).join("")}</span></div><p class="small muted">${esc(p.evidence[0].t)}</p></button>`).join("")}</div></section>`;
+  },
+  after() {
+    const q = document.getElementById("herb-q");
+    if (q) q.addEventListener("input", () => { S.herbQuery = q.value; document.getElementById("herb-list").innerHTML = herbListHTML(); });
+  }
+};
+
+function calStrip(cal) {
+  const m = new Date().getMonth() + 1;
+  let html = `<div class="calstrip-wrap"><div class="calstrip"><span></span>${MONTHS.map((mm, i) => `<span class="m ${i + 1 === m ? "now" : ""}">${mm[0]}</span>`).join("")}`;
+  for (const k of CAL_KEYS) {
+    if (!cal[k.key]) continue;
+    html += `<span class="lbl">${esc(k.label)}</span>` + MONTHS.map((_, i) => `<span class="cell ${cal[k.key].includes(i + 1) ? "c-" + k.key : ""} ${i + 1 === m ? "now" : ""}" title="${esc(k.label)} · ${MONTHS_LONG[i]}"></span>`).join("");
+  }
+  return html + "</div></div>";
+}
+VIEWS.herb = {
+  tab: "herbs", title: p => (HERB[p.id] || {}).name || "Herb",
+  render(p) {
+    const h = HERB[p.id]; if (!h) return `<div class="empty">Herb not found.</div>`;
+    const photo = S.photos[h.id];
+    const showPhoto = photo && p.showPhoto !== false;
+    const makes = (h.makes || []).map(id => MAKE[id]).filter(Boolean);
+    return `<div class="hero-art"><div class="plate">${showPhoto ? `<img src="${photo}" alt="Your photo of ${esc(h.name)}">` : herbArt(h)}
+        ${photo ? `<button class="btn small plate-toggle" data-act="herb-photo-toggle">${showPhoto ? "Show drawing" : "Show my photo"}</button>` : ""}</div></div>
+      <section class="stack" style="gap:4px"><h1>${esc(h.name)}</h1><span class="latin">${esc(h.latin)}</span></section>
+      <dl class="specimen" data-label="Herbarium sheet">
+        <dt>Family</dt><dd>${esc(h.family)}</dd>
+        <dt>Habit</dt><dd>${esc(h.type)}</dd>
+        <dt>Hardiness</dt><dd>${esc(h.hardy)}</dd>
+        <dt>Light</dt><dd>${h.sun.map(s => esc(SUN[s].label) + ` <span class="muted">(${esc(SUN[s].note)})</span>`).join("<br>")}</dd>
+        <dt>Pots</dt><dd>${h.container ? "Grows well in a container" : "Better in the ground"}</dd>
+      </dl>
+      <section class="section"><h2>The year</h2><div class="card">${calStrip(h.cal)}</div></section>
+      <section class="section"><h2>Growing</h2><p>${esc(h.grow)}</p>
+        <h3>Propagating</h3><p>${esc(h.propagate)}</p>
+        <h3>Winter</h3><p>${esc(h.winter)}</p></section>
+      <section class="section"><h2>Uses &amp; evidence</h2><div class="card" style="gap:0">
+        ${h.uses.map(u => `<div class="use-item"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><b>${esc(u.t)}</b>${evBadge(u.ev)}</div>${u.n ? `<p class="small muted">${esc(u.n)}</p>` : ""}</div>`).join("")}
+      </div></section>
+      <div class="callout"><strong>Safety</strong>${esc(h.safety)}</div>
+      ${makes.length ? `<section class="section"><h2>Make with ${esc(h.name.split(" ")[0].toLowerCase())}</h2><div class="stack">${makes.map(makeCard).join("")}</div></section>` : ""}
+      <div class="btn-row">
+        <button class="btn" data-act="store-new" data-herb="${h.id}">${icon("jar")}Add to stores</button>
+        <button class="btn" data-act="journal-new" data-herb="${h.id}">${icon("book")}Journal</button>
+        <label class="btn">${icon("camera")}${photo ? "Change photo" : "Add my photo"}<input type="file" accept="image/*" hidden data-photo="herb" data-id="${h.id}"></label>
+      </div>
+      ${photo ? `<button class="btn small ghost" data-act="herb-photo-remove" data-id="${h.id}">Remove my photo</button>` : ""}`;
+  }
+};
+
+VIEWS.pantry = {
+  tab: "herbs", title: p => (PANT[p.id] || {}).name || "Botanical",
+  render(p) {
+    const x = PANT[p.id]; if (!x) return "";
+    return `<section class="stack" style="gap:6px"><span class="label">Kitchen-cupboard botanical</span><h1>${esc(x.name)}</h1></section>
+      <div class="card"><span class="label">Can I grow it?</span><p>${esc(x.grow)}</p></div>
+      <section class="section"><h2>What the evidence says</h2><div class="card" style="gap:0">
+        ${x.evidence.map(u => `<div class="use-item"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><b>${esc(u.t)}</b>${evBadge(u.ev)}</div>${u.n ? `<p class="small muted">${esc(u.n)}</p>` : ""}</div>`).join("")}
+      </div></section>
+      <div class="callout"><strong>Safety</strong>${esc(x.safety)}</div>
+      <div class="btn-row"><button class="btn" data-act="store-new" data-herb="${x.id}">${icon("jar")}Add to stores</button></div>`;
+  }
+};
+
+VIEWS.calendar = {
+  tab: "herbs", title: "Garden year",
+  render() {
+    const m = S.calMonth, cur = new Date().getMonth() + 1;
+    const tasks = monthTasks(m);
+    const rows = HERBS.map(h => `<tr><td><a href="#" data-act="herb" data-id="${h.id}">${esc(h.name)}</a></td>${MONTHS.map((_, i) => `<td class="${i + 1 === cur ? "now" : ""}"><span class="dots">${CAL_KEYS.filter(k => (h.cal[k.key] || []).includes(i + 1)).map(k => `<span class="dot c-${k.key}" title="${esc(k.label)}"></span>`).join("")}</span></td>`).join("")}</tr>`).join("");
+    return `<section class="section"><h1>Garden year</h1>
+      <div class="chips scroll">${MONTHS.map((mm, i) => `<button class="chip" data-act="cal-month" data-val="${i + 1}" aria-pressed="${i + 1 === m}">${mm}</button>`).join("")}</div>
+      <div class="card" style="gap:0"><h3 style="margin-bottom:6px">${MONTHS_LONG[m - 1]}</h3>${tasks.map(g => `<div class="task-group"><div class="row" style="gap:8px;flex-wrap:nowrap"><span class="dot c-${g.key}"></span><b class="small">${esc(g.label)}</b></div><div class="chips">${g.herbs.map(hh => `<button class="chip" data-act="herb" data-id="${hh.id}">${esc(hh.name)}</button>`).join("")}</div></div>`).join("") || '<p class="muted">Nothing to do. Rest.</p>'}</div></section>
+      <section class="section"><h2>All herbs, all months</h2>
+        <div class="chips">${CAL_KEYS.map(k => `<span class="chip static"><span class="dot c-${k.key}"></span>${esc(k.label)}</span>`).join("")}</div>
+        <div class="yeartable-wrap"><table class="year"><thead><tr><th>Herb</th>${MONTHS.map((mm, i) => `<th class="${i + 1 === cur ? "now" : ""}">${mm}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>
+        <p class="small muted">Dates are for most of the UK. In Scotland and the north, or on cold, exposed sites, sow and plant out 2–3 weeks later.</p></section>`;
+  }
+};
+
+/* ---------------- MAKE ---------------- */
+function makeCard(mk, mine) {
+  const herbs = herbNames([...(mk.herbs || []), ...(mk.pantry || [])]);
+  return `<button class="card tap make-card" data-act="make" data-id="${mk.id}" ${mine ? 'data-mine="1"' : ""}>
+    <div class="row between"><span class="cat-mark">${esc(CATS[mk.cat] || "")}</span>${mine ? (mk.from ? `<span class="pill info">From ${esc(mk.from)}</span>` : `<span class="pill info">Mine</span>`) : evBadge(mk.ev)}</div>
+    <h3>${esc(mk.title)}</h3>
+    <div class="meta-line">${mk.time ? `<span>${esc(mk.time)}</span>` : ""}${herbs ? `<span>· ${esc(herbs)}</span>` : ""}</div>
+  </button>`;
+}
+function makeListHTML() {
+  const q = S.makeQuery.trim().toLowerCase();
+  const match = mk => !q || (mk.title + " " + herbNames(mk.herbs) + " " + (mk.ingredients || []).join(" ")).toLowerCase().includes(q);
+  if (S.makeCat === "mine") {
+    const list = S.creations.filter(match).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    return list.length ? `<div class="stack">${list.map(c => makeCard(c, true)).join("")}</div>`
+      : `<div class="empty">${icon("cauldron")}<p>Recipes and methods you write, save or receive from friends live here.</p></div>`;
+  }
+  const list = MAKES.filter(mk => (q ? true : mk.cat === S.makeCat) && match(mk));
+  return list.length ? `<div class="stack">${list.map(mk => makeCard(mk)).join("")}</div>` : `<div class="empty">Nothing matches that search.</div>`;
+}
+VIEWS.make = {
+  root: true, tab: "make", title: "Make",
+  render() {
+    const intro = {
+      tea: "Fresh teas and drinks. Hot ones are made and drunk on the day; cold ones live in the fridge for 24 hours at most.",
+      kitchen: "Drying, freezing, salts, vinegars and oils, so your harvest lasts all year.",
+      meal: "Simple, nourishing plates for one, built around the herbs you grow.",
+      body: "Soap, shampoo, rinses, oils and balms. Small batches, no lye, no mystery chemistry.",
+      home: "Sachets, simmer pots and small rituals for your space.",
+      mine: "Your own recipes and methods, and the ones friends have shared with you."
+    }[S.makeCat];
+    return `<section class="section"><h1>Make</h1>
+      <input class="input" id="make-q" type="search" placeholder="Search all recipes and methods" value="${esc(S.makeQuery)}" aria-label="Search recipes">
+      <div class="chips scroll">${Object.entries(CATS).map(([k, l]) => `<button class="chip" data-act="make-cat" data-val="${k}" aria-pressed="${S.makeCat === k}">${l}</button>`).join("")}</div>
+      <p class="muted small">${esc(intro)}</p>
+      ${S.makeCat === "mine" ? `<div class="btn-row"><button class="btn primary" data-act="creation-new">${icon("plus")}Write a recipe or method</button><button class="btn" data-act="nav" data-to="receive">${icon("receive")}Receive</button></div>` : ""}
+      <div id="make-list">${makeListHTML()}</div></section>
+      <div class="callout info"><strong>How to read the labels</strong>
+        <div class="stack small" style="gap:6px;margin-top:6px">${Object.entries(EVIDENCE).map(([k, e]) => `<div class="row" style="flex-wrap:nowrap;align-items:flex-start">${evBadge(k)}<span>${esc(e.note)}</span></div>`).join("")}</div></div>`;
+  },
+  after() {
+    const q = document.getElementById("make-q");
+    if (q) q.addEventListener("input", () => { S.makeQuery = q.value; document.getElementById("make-list").innerHTML = makeListHTML(); });
+  }
+};
+
+function findMake(p) { return p.mine ? S.creations.find(c => c.id === p.id) : MAKE[p.id]; }
+VIEWS.makeDetail = {
+  tab: "make", title: p => { const m = findMake(p); return m ? m.title : "Recipe"; },
+  render(p) {
+    const mk = findMake(p); if (!mk) return `<div class="empty">This recipe has been deleted.</div>`;
+    const herbIds = [...(mk.herbs || [])].filter(id => HERB[id]);
+    const pantIds = [...(mk.pantry || [])].filter(id => PANT[id]);
+    return `<section class="stack" style="gap:8px"><span class="cat-mark">${esc(CATS[mk.cat] || "")}</span><h1>${esc(mk.title)}</h1>
+        <div class="meta-line">${mk.time ? `<span>${esc(mk.time)}</span>` : ""}${p.mine && mk.from ? `<span class="pill info">Shared by ${esc(mk.from)}</span>` : ""}</div></section>
+      ${!p.mine ? `<div class="card"><div class="row between"><span class="label">Evidence</span>${evBadge(mk.ev)}</div><p class="small">${esc(mk.evnote)}</p></div>` : (mk.evnote ? `<div class="card"><span class="label">Notes</span><p class="small prose">${esc(mk.evnote)}</p></div>` : "")}
+      ${herbIds.length || pantIds.length ? `<div class="chips">${herbIds.map(id => `<button class="chip" data-act="herb" data-id="${id}">${esc(HERB[id].name)}</button>`).join("")}${pantIds.map(id => `<button class="chip" data-act="pantry" data-id="${id}">${esc(PANT[id].name)}</button>`).join("")}</div>` : ""}
+      ${(mk.ingredients || []).length ? `<section class="section"><h2>You'll need</h2><ul class="ingredients">${mk.ingredients.map((i, n) => `<li><label><input type="checkbox" id="ing-${n}"><span>${esc(i)}</span></label></li>`).join("")}</ul></section>` : ""}
+      ${(mk.steps || []).length ? `<section class="section"><h2>Method</h2><ol class="steps">${mk.steps.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol></section>` : ""}
+      ${mk.keeps ? `<div class="card"><span class="label">Keeping</span><p>${esc(mk.keeps)}</p></div>` : ""}
+      ${mk.safety ? `<div class="callout"><strong>Safety</strong>${esc(mk.safety)}</div>` : ""}
+      <div class="btn-row">
+        <button class="btn primary" data-act="journal-new" data-make="${esc(mk.id)}" ${p.mine ? 'data-mine="1"' : ""}>${icon("book")}I made this</button>
+        <button class="btn" data-act="share-make" data-id="${esc(mk.id)}" ${p.mine ? 'data-mine="1"' : ""}>${icon("share")}Share</button>
+      </div>
+      <div class="btn-row">
+        ${p.mine ? `<button class="btn" data-act="creation-edit" data-id="${esc(mk.id)}">${icon("edit")}Edit</button><button class="btn danger" data-act="creation-delete" data-id="${esc(mk.id)}">Delete</button>`
+          : `<button class="btn ghost" data-act="creation-copy" data-id="${esc(mk.id)}">${icon("copy")}Save a copy to adapt</button>`}
+      </div>`;
+  }
+};
+
+function herbPicker(name, selected) {
+  const sel = new Set(selected || []);
+  return `<div class="chips" data-picker="${name}">${HERBS.map(h => `<button type="button" class="chip" data-act="toggle-chip" data-val="${h.id}" aria-pressed="${sel.has(h.id)}">${esc(h.name)}</button>`).join("")}${PANTRY.map(h => `<button type="button" class="chip" data-act="toggle-chip" data-val="${h.id}" aria-pressed="${sel.has(h.id)}">${esc(h.name)}</button>`).join("")}</div>`;
+}
+function pickerValues(form, name) { return [...form.querySelectorAll(`[data-picker="${name}"] [aria-pressed="true"]`)].map(b => b.dataset.val); }
+
+VIEWS.creationForm = {
+  tab: "make", title: p => p.id ? "Edit recipe" : "New recipe or method",
+  render(p) {
+    const c = p.id ? S.creations.find(x => x.id === p.id) : (p.draft || {});
+    if (!c) return `<div class="empty">Not found.</div>`;
+    return `<form class="stack" data-form="creation" data-id="${esc(c.id || "")}" style="gap:16px">
+      <label class="field"><span>Name</span><input class="input" name="title" id="cf-title" required value="${esc(c.title || "")}" placeholder="e.g. Rosemary & orange simmer pot"></label>
+      <div class="field-row">
+        <label class="field"><span>Type</span><select class="input" name="cat" id="cf-cat">${Object.entries(CATS).filter(([k]) => k !== "mine").map(([k, l]) => `<option value="${k}" ${c.cat === k ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+        <label class="field"><span>Time</span><input class="input" name="time" id="cf-time" value="${esc(c.time || "")}" placeholder="20 min"></label>
+      </div>
+      <div class="field"><span>Herbs used</span>${herbPicker("herbs", [...(c.herbs || []), ...(c.pantry || [])])}</div>
+      <label class="field"><span>Ingredients (one per line)</span><textarea class="input" name="ingredients" id="cf-ing" rows="5">${esc((c.ingredients || []).join("\n"))}</textarea></label>
+      <label class="field"><span>Method (one step per line)</span><textarea class="input" name="steps" id="cf-steps" rows="6">${esc((c.steps || []).join("\n"))}</textarea></label>
+      <label class="field"><span>How long it keeps, and how</span><input class="input" name="keeps" id="cf-keeps" value="${esc(c.keeps || "")}" placeholder="Fridge, 2 days"></label>
+      <label class="field"><span>Safety notes</span><input class="input" name="safety" id="cf-safety" value="${esc(c.safety || "")}"></label>
+      <label class="field"><span>Notes, source or story</span><textarea class="input" name="evnote" id="cf-notes" rows="3">${esc(c.evnote || "")}</textarea></label>
+      <button class="btn primary block" type="submit">Save</button>
+    </form>`;
+  }
+};
+
+/* ---------------- JOURNAL ---------------- */
+const J_TYPES = ["Experiment", "Tea or drink", "Cooking", "Apothecary", "Garden", "Reflection"];
+function moonMini(name) {
+  const fr = { "New Moon": 0, "Waxing Crescent": .14, "First Quarter": .25, "Waxing Gibbous": .37, "Full Moon": .5, "Waning Gibbous": .63, "Last Quarter": .75, "Waning Crescent": .86 }[name];
+  return fr === undefined ? "" : moonSVG(fr, 16, name).replace('class="moon"', 'class="moon mini-moon"');
+}
+VIEWS.journal = {
+  root: true, tab: "journal", title: "Journal",
+  render() {
+    const used = [...new Set(S.journal.flatMap(e => e.herbs || []))].filter(id => HERB[id] || PANT[id]);
+    const list = S.journal.filter(e => !S.jHerb || (e.herbs || []).includes(S.jHerb)).sort(sortByDateDesc);
+    return `<section class="section"><div class="section-head"><h1>Journal</h1><button class="btn primary small" data-act="journal-new">${icon("plus")}New</button></div>
+      <p class="muted small">Record what you tried, what you changed and how it went. Moon phase${S.settings.profile === "female" ? " and cycle phase are" : " is"} added automatically.</p>
+      ${used.length ? `<div class="chips scroll"><button class="chip" data-act="j-filter" data-val="" aria-pressed="${!S.jHerb}">All</button>${used.map(id => `<button class="chip" data-act="j-filter" data-val="${id}" aria-pressed="${S.jHerb === id}">${esc(itemName(id))}</button>`).join("")}</div>` : ""}
+      ${list.length ? `<div class="stack">${list.map(e => `<button class="card tap entry" data-act="journal-view" data-id="${e.id}">
+          <div class="stack" style="gap:6px;min-width:0">
+            <span class="entry-date">${esc(fmtDate(e.date))} ${moonMini(e.moon)} ${e.cycle && CYCLE_PHASES[e.cycle] ? `<span class="pill info">${esc(CYCLE_PHASES[e.cycle].short)}</span>` : ""} <span>${esc(e.type || "")}</span></span>
+            <h3>${esc(e.title || "Untitled")}</h3>
+            ${e.rating ? `<span class="rating" aria-label="${e.rating} of 5">${"★".repeat(e.rating)}<span style="color:var(--line)">${"★".repeat(5 - e.rating)}</span></span>` : ""}
+            ${(e.herbs || []).length ? `<span class="small muted">${esc(herbNames(e.herbs))}</span>` : ""}
+          </div>${e.photo ? `<img class="thumb" src="${e.photo}" alt="">` : ""}</button>`).join("")}</div>`
+        : `<div class="empty">${icon("book")}<p>No entries yet. Try a tea from Make, then come back and tap “I made this”.</p><button class="btn primary" data-act="journal-new">Write the first entry</button></div>`}
+    </section>`;
+  }
+};
+VIEWS.journalView = {
+  tab: "journal", title: "Journal entry",
+  render(p) {
+    const e = S.journal.find(x => x.id === p.id); if (!e) return `<div class="empty">Entry not found.</div>`;
+    const mk = e.makeId ? (e.makeMine ? S.creations.find(c => c.id === e.makeId) : MAKE[e.makeId]) : null;
+    return `<section class="stack" style="gap:6px"><span class="entry-date">${esc(fmtDate(e.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</span><h1>${esc(e.title || "Untitled")}</h1>
+      <div class="row small">${moonMini(e.moon)}<span class="muted">${esc(e.moon || "")}</span>${e.cycle && CYCLE_PHASES[e.cycle] ? `<span class="pill info">${esc(CYCLE_PHASES[e.cycle].name)}</span>` : ""}<span class="muted">· ${esc(e.type || "")}</span></div></section>
+      ${e.photo ? `<img class="photo-preview" src="${e.photo}" alt="Photo for this entry">` : ""}
+      ${e.rating ? `<span class="rating" style="font-size:1.3rem">${"★".repeat(e.rating)}<span style="color:var(--line)">${"★".repeat(5 - e.rating)}</span></span>` : ""}
+      ${(e.herbs || []).length ? `<div class="chips">${e.herbs.filter(id => HERB[id] || PANT[id]).map(id => `<button class="chip" data-act="${HERB[id] ? "herb" : "pantry"}" data-id="${id}">${esc(itemName(id))}</button>`).join("")}</div>` : ""}
+      ${mk ? `<button class="card tap" data-act="make" data-id="${esc(mk.id)}" ${e.makeMine ? 'data-mine="1"' : ""}><span class="label">Made from</span><b>${esc(mk.title)}</b></button>` : ""}
+      ${e.did ? `<section class="section"><h2>What I did</h2><div class="prose">${esc(e.did)}</div></section>` : ""}
+      ${e.result ? `<section class="section"><h2>How it went</h2><div class="prose">${esc(e.result)}</div></section>` : ""}
+      ${e.again ? `<p><b>Make it again?</b> ${esc(e.again)}</p>` : ""}
+      <div class="btn-row"><button class="btn" data-act="journal-edit" data-id="${e.id}">${icon("edit")}Edit</button><button class="btn" data-act="share-journal" data-id="${e.id}">${icon("share")}Share</button><button class="btn danger" data-act="journal-delete" data-id="${e.id}">Delete</button></div>`;
+  }
+};
+VIEWS.journalForm = {
+  tab: "journal", title: p => p.id ? "Edit entry" : "New entry",
+  render(p) {
+    let e = p.id ? S.journal.find(x => x.id === p.id) : null;
+    if (!e) {
+      e = { date: todayISO(), herbs: [], type: "Experiment" };
+      if (p.herb) e.herbs = [p.herb];
+      if (p.make) {
+        const mk = p.mine ? S.creations.find(c => c.id === p.make) : MAKE[p.make];
+        if (mk) {
+          e.title = mk.title; e.makeId = mk.id; e.makeMine = !!p.mine;
+          e.herbs = [...(mk.herbs || []), ...(mk.pantry || [])];
+          e.type = { tea: "Tea or drink", meal: "Cooking", kitchen: "Cooking", body: "Apothecary", home: "Apothecary" }[mk.cat] || "Experiment";
+        }
+      }
+    }
+    const r = e.rating || 0;
+    return `<form class="stack" data-form="journal" data-id="${esc(e.id || "")}" data-make="${esc(e.makeId || "")}" data-mine="${e.makeMine ? 1 : ""}" style="gap:16px">
+      <div class="field-row">
+        <label class="field"><span>Date</span><input class="input" type="date" name="date" id="jf-date" value="${esc(e.date)}" required></label>
+        <label class="field"><span>Type</span><select class="input" name="type" id="jf-type">${J_TYPES.map(t => `<option ${e.type === t ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+      </div>
+      <label class="field"><span>Title</span><input class="input" name="title" id="jf-title" value="${esc(e.title || "")}" placeholder="e.g. Mint tea with lemon balm" required></label>
+      <div class="field"><span>Herbs</span>${herbPicker("herbs", e.herbs)}</div>
+      <label class="field"><span>What I did (amounts, timings, changes)</span><textarea class="input" name="did" id="jf-did" rows="4">${esc(e.did || "")}</textarea></label>
+      <label class="field"><span>How it went</span><textarea class="input" name="result" id="jf-result" rows="4">${esc(e.result || "")}</textarea></label>
+      <div class="field"><span>Rating</span><div class="stars" data-stars>${[1,2,3,4,5].map(n => `<button type="button" data-act="star" data-val="${n}" class="${n <= r ? "on" : ""}" aria-label="${n} star${n > 1 ? "s" : ""}">★</button>`).join("")}</div><input type="hidden" name="rating" value="${r}"></div>
+      <label class="field"><span>Make it again?</span><select class="input" name="again" id="jf-again">${["", "Yes", "Yes, with changes", "No"].map(o => `<option value="${o}" ${e.again === o ? "selected" : ""}>${o || "Not sure yet"}</option>`).join("")}</select></label>
+      <div class="field"><span>Photo</span>
+        <img class="photo-preview" data-preview ${e.photo ? `src="${e.photo}"` : "hidden"} alt="">
+        <input type="hidden" name="photo" value="${esc(e.photo || "")}">
+        <div class="btn-row"><label class="btn">${icon("camera")}${e.photo ? "Change photo" : "Add a photo"}<input type="file" accept="image/*" hidden data-photo="form"></label>${e.photo ? `<button type="button" class="btn ghost" data-act="photo-clear">Remove</button>` : ""}</div>
+      </div>
+      <button class="btn primary block" type="submit">Save entry</button>
+    </form>`;
+  }
+};
+
+/* ---------------- STORES ---------------- */
+const FORMS = [
+  ["Fresh (in the fridge)", 7], ["Dried", 365], ["Frozen", 180], ["Seeds", 730], ["Tea blend", 365],
+  ["Herb salt", 180], ["Herb vinegar", 180], ["Infused oil (kitchen)", 30], ["Infused oil (skin)", 180],
+  ["Balm or salve", 180], ["Soap", 365], ["Hair rinse or shampoo", 5], ["Growing plant", 0], ["Other", 0]
+];
+const PURPOSES = ["Cooking", "Tea or drink", "Soap", "Shampoo or hair rinse", "Skin care", "Bath", "Home", "Gift", "Other"];
+function shelfDays(form) { const f = FORMS.find(x => x[0] === form); return f ? f[1] : 0; }
+
+VIEWS.stores = {
+  root: true, tab: "stores", title: "Stores",
+  render() {
+    const withSt = S.inventory.map(it => ({ it, st: storeStatus(it) }));
+    const attention = withSt.filter(x => x.st.length);
+    const list = (S.storeFilter === "attention" ? attention : withSt)
+      .sort((a, b) => (a.st.length ? a.st[0].rank : 9) - (b.st.length ? b.st[0].rank : 9) || itemName(a.it.herb, a.it.custom).localeCompare(itemName(b.it.herb, b.it.custom)));
+    return `<section class="section"><div class="section-head"><h1>Stores</h1><button class="btn primary small" data-act="store-new">${icon("plus")}Add</button></div>
+      <p class="muted small">Your jars, bunches, oils and plants: when you stored them, when they're best used by, when to harvest again, and what you've used them for.</p>
+      <div class="seg" role="group" aria-label="Filter"><button data-act="store-filter" data-val="all" aria-pressed="${S.storeFilter === "all"}">All ${S.inventory.length}</button><button data-act="store-filter" data-val="attention" aria-pressed="${S.storeFilter === "attention"}">Needs attention ${attention.length}</button></div>
+      ${list.length ? `<div class="stack">${list.map(({ it, st }) => {
+        const last = (it.uses || []).slice().sort(sortByDateDesc)[0];
+        return `<button class="card tap" data-act="store" data-id="${it.id}">
+          <div class="row between" style="align-items:flex-start;flex-wrap:nowrap"><div class="stack" style="gap:2px;min-width:0"><h3>${esc(itemName(it.herb, it.custom))}</h3><span class="small muted">${esc([it.form, it.amount, it.location].filter(Boolean).join(" · "))}</span></div>
+          <div class="stack" style="gap:4px;align-items:flex-end">${st.length ? st.map(s => `<span class="pill ${s.cls}">${esc(s.text)}</span>`).join("") : `<span class="pill ok">Fine</span>`}</div></div>
+          <div class="meta-line">${it.stored ? `<span>Stored ${esc(fmtDateY(it.stored))}</span>` : ""}${it.bestBefore ? `<span>· Best by ${esc(fmtDateY(it.bestBefore))}</span>` : ""}${last ? `<span>· Last used ${esc(fmtDate(last.date, { day: "numeric", month: "short" }))} for ${esc(last.purpose.toLowerCase())}</span>` : ""}</div>
+        </button>`; }).join("")}</div>`
+        : `<div class="empty">${icon("jar")}<p>${S.storeFilter === "attention" ? "Nothing needs attention. Everything's within date." : "Nothing in your stores yet. Add the herbs you've dried, frozen, bottled or are growing."}</p>${S.storeFilter === "attention" ? "" : `<button class="btn primary" data-act="store-new">Add your first item</button>`}</div>`}
+    </section>`;
+  }
+};
+VIEWS.storeView = {
+  tab: "stores", title: p => { const it = S.inventory.find(x => x.id === p.id); return it ? itemName(it.herb, it.custom) : "Item"; },
+  render(p) {
+    const it = S.inventory.find(x => x.id === p.id); if (!it) return `<div class="empty">Item not found.</div>`;
+    const st = storeStatus(it);
+    const uses = (it.uses || []).slice().sort(sortByDateDesc);
+    const linkAct = HERB[it.herb] ? "herb" : PANT[it.herb] ? "pantry" : "";
+    return `<section class="stack" style="gap:6px"><span class="label">${esc(it.form || "")}</span><h1>${esc(itemName(it.herb, it.custom))}</h1>
+        <div class="row">${st.map(s => `<span class="pill ${s.cls}">${esc(s.text)}</span>`).join("") || `<span class="pill ok">Fine</span>`}</div></section>
+      ${it.photo ? `<img class="photo-preview" src="${it.photo}" alt="">` : ""}
+      <dl class="specimen" data-label="Jar label">
+        ${it.amount ? `<dt>Amount</dt><dd>${esc(it.amount)}</dd>` : ""}
+        ${it.location ? `<dt>Kept</dt><dd>${esc(it.location)}</dd>` : ""}
+        ${it.stored ? `<dt>Stored</dt><dd>${esc(fmtDateY(it.stored))}</dd>` : ""}
+        ${it.bestBefore ? `<dt>Best by</dt><dd>${esc(fmtDateY(it.bestBefore))}</dd>` : ""}
+        ${it.nextHarvest ? `<dt>Harvest</dt><dd>${esc(fmtDateY(it.nextHarvest))}</dd>` : ""}
+      </dl>
+      ${it.notes ? `<div class="prose">${esc(it.notes)}</div>` : ""}
+      <section class="section"><h2>Log a use</h2>
+        <form class="card" data-form="use" data-id="${it.id}">
+          <div class="field-row">
+            <label class="field"><span>Date</span><input class="input" type="date" name="date" id="uf-date" value="${todayISO()}" required></label>
+            <label class="field"><span>Used for</span><select class="input" name="purpose" id="uf-purpose">${PURPOSES.map(x => `<option>${x}</option>`).join("")}</select></label>
+          </div>
+          <label class="field"><span>How much, and what for (optional)</span><input class="input" name="note" id="uf-note" placeholder="2 tbsp in calendula soap"></label>
+          <button class="btn primary" type="submit">Log it</button>
+        </form>
+        ${uses.length ? `<div class="card" style="gap:0">${uses.map(u => `<div class="use-item"><div class="row between"><b>${esc(u.purpose)}</b><span class="small muted">${esc(fmtDateY(u.date))}</span></div>${u.note ? `<span class="small muted">${esc(u.note)}</span>` : ""}</div>`).join("")}</div>` : `<p class="muted small">No uses logged yet.</p>`}
+      </section>
+      <div class="btn-row">${linkAct ? `<button class="btn" data-act="${linkAct}" data-id="${it.herb}">About this herb</button>` : ""}<button class="btn" data-act="store-edit" data-id="${it.id}">${icon("edit")}Edit</button>${it.form === "Growing plant" || it.form === "Fresh (in the fridge)" ? `<button class="btn" data-act="store-harvested" data-id="${it.id}">Harvested today</button>` : ""}<button class="btn danger" data-act="store-delete" data-id="${it.id}">Delete</button></div>`;
+  }
+};
+VIEWS.storeForm = {
+  tab: "stores", title: p => p.id ? "Edit item" : "Add to stores",
+  render(p) {
+    const it = p.id ? S.inventory.find(x => x.id === p.id) : { herb: p.herb || "", stored: todayISO(), form: "Dried" };
+    if (!it) return `<div class="empty">Not found.</div>`;
+    const autoBB = !p.id;
+    const bb = it.bestBefore || (autoBB && shelfDays(it.form) ? addDays(it.stored, shelfDays(it.form)) : "");
+    const isCustom = it.herb === "" || (!HERB[it.herb] && !PANT[it.herb]);
+    return `<form class="stack" data-form="store" data-id="${esc(it.id || "")}" style="gap:16px">
+      <label class="field"><span>What is it?</span><select class="input" name="herb" id="sf-herb">
+        <option value="" ${isCustom ? "selected" : ""}>Something else…</option>
+        <optgroup label="Garden herbs">${HERBS.map(h => `<option value="${h.id}" ${it.herb === h.id ? "selected" : ""}>${esc(h.name)}</option>`).join("")}</optgroup>
+        <optgroup label="Kitchen cupboard">${PANTRY.map(h => `<option value="${h.id}" ${it.herb === h.id ? "selected" : ""}>${esc(h.name)}</option>`).join("")}</optgroup>
+      </select></label>
+      <label class="field" data-custom ${isCustom ? "" : "hidden"}><span>Name</span><input class="input" name="custom" id="sf-custom" value="${esc(it.custom || "")}" placeholder="e.g. Elderflower cordial"></label>
+      <div class="field-row">
+        <label class="field"><span>Form</span><select class="input" name="form" id="sf-form">${FORMS.map(([f]) => `<option ${it.form === f ? "selected" : ""}>${f}</option>`).join("")}</select></label>
+        <label class="field"><span>Amount</span><input class="input" name="amount" id="sf-amount" value="${esc(it.amount || "")}" placeholder="1 jar, 30g"></label>
+      </div>
+      <label class="field"><span>Where it's kept</span><input class="input" name="location" id="sf-location" value="${esc(it.location || "")}" placeholder="Pantry shelf, freezer drawer, windowsill"></label>
+      <div class="field-row">
+        <label class="field"><span>Stored or planted on</span><input class="input" type="date" name="stored" id="sf-stored" value="${esc(it.stored || "")}"></label>
+        <label class="field"><span>Best used by</span><input class="input" type="date" name="bestBefore" id="sf-bb" value="${esc(bb)}" data-auto="${autoBB ? 1 : 0}"></label>
+      </div>
+      <p class="small muted" id="sf-hint">${shelfDays(it.form) ? `Suggested shelf life for ${esc(it.form.toLowerCase())}: about ${shelfDays(it.form) >= 60 ? Math.round(shelfDays(it.form) / 30) + " months" : shelfDays(it.form) + " days"}.` : "No set shelf life for this form."}</p>
+      <label class="field"><span>Next harvest (for plants you're growing)</span><input class="input" type="date" name="nextHarvest" id="sf-harvest" value="${esc(it.nextHarvest || "")}"></label>
+      <label class="field"><span>Notes</span><textarea class="input" name="notes" id="sf-notes" rows="3">${esc(it.notes || "")}</textarea></label>
+      <div class="field"><span>Photo</span>
+        <img class="photo-preview" data-preview ${it.photo ? `src="${it.photo}"` : "hidden"} alt="">
+        <input type="hidden" name="photo" value="${esc(it.photo || "")}">
+        <div class="btn-row"><label class="btn">${icon("camera")}${it.photo ? "Change photo" : "Add a photo"}<input type="file" accept="image/*" hidden data-photo="form"></label>${it.photo ? `<button type="button" class="btn ghost" data-act="photo-clear">Remove</button>` : ""}</div>
+      </div>
+      <button class="btn primary block" type="submit">Save</button>
+    </form>`;
+  }
+};
+
+/* ---------------- TRUTHS ---------------- */
+VIEWS.truths = {
+  tab: "", title: "Herb truths",
+  render() {
+    return `<section class="stack" style="gap:8px"><span class="label">What not to believe</span><h1>Herb truths</h1>
+      <p>Herbs are wonderful. They make food better, rituals calmer and homes lovelier, and a few have real evidence for real problems. Social media is also full of confident, made-up claims. Here's how to tell them apart.</p></section>
+      <section class="section"><h2>Spot a dodgy claim</h2><div class="card"><ul class="list-plain">${RED_FLAGS.map(r => `<li>${esc(r)}</li>`).join("")}</ul></div></section>
+      <section class="section"><h2>Myths, checked</h2>
+        <div class="stack">${MYTHS.map((m, i) => `<div class="card myth" id="myth-${i}"><span class="stamp">Not supported</span><p class="claim">“${esc(m.claim)}”</p><p class="small">${esc(m.truth)}</p><p class="instead"><b>Instead:</b> ${esc(m.instead)}</p></div>`).join("")}</div></section>
+      <section class="section"><h2>Safety basics</h2><div class="card"><ul class="list-plain">${SAFETY_BASICS.map(r => `<li>${esc(r)}</li>`).join("")}</ul></div></section>
+      <section class="section"><h2>How this app labels evidence</h2><div class="card stack small">${Object.entries(EVIDENCE).map(([k, e]) => `<div class="row" style="flex-wrap:nowrap;align-items:flex-start">${evBadge(k)}<span>${esc(e.note)}</span></div>`).join("")}</div></section>
+      <section class="section"><h2>Where to check</h2><div class="card" style="gap:0">${TRUSTED.map(t => `<div class="source-link">${t.url ? `<a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.name)}</a>` : `<b>${esc(t.name)}</b>`}<span class="small muted">${esc(t.what)}</span></div>`).join("")}</div></section>
+      <p class="small muted">This app is for learning and everyday use. It isn't medical advice and can't diagnose or treat anything. If you're unwell, call NHS 111 or see your GP.</p>`;
+  },
+  after(p) {
+    if (p && p.anchor === "moon") {
+      const idx = MYTHS.findIndex(m => m.claim.toLowerCase().includes("moon"));
+      const el = document.getElementById("myth-" + idx);
+      if (el) setTimeout(() => el.scrollIntoView({ block: "center" }), 50);
+    }
+  }
+};
+
+/* ---------------- SETTINGS ---------------- */
+VIEWS.settings = {
+  tab: "", title: "Settings",
+  render() {
+    const s = S.settings, c = s.cycle;
+    const counts = `${S.journal.length} journal entries · ${S.inventory.length} stored items · ${S.creations.length} of your own makes`;
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    return `<form class="stack" data-form="settings" style="gap:18px">
+      <section class="section"><h2>You</h2>
+        <label class="field"><span>Your name (for greetings and shares)</span><input class="input" name="name" id="st-name" value="${esc(s.name)}" placeholder="Name"></label>
+        <div class="field"><span>Profile</span><div class="seg" role="group"><button type="button" data-act="seg" data-name="profile" data-val="female" aria-pressed="${s.profile === "female"}">Female</button><button type="button" data-act="seg" data-name="profile" data-val="male" aria-pressed="${s.profile === "male"}">Male</button></div>
+          <input type="hidden" name="profile" value="${esc(s.profile)}">
+          <span class="small muted">Female shows menstrual cycle phases on Today and in your journal. Male hides them everywhere.</span></div>
+      </section>
+      <section class="section" ${s.profile === "female" ? "" : "hidden"} data-cycle>
+        <h2>Cycle</h2>
+        <p class="small muted">Stored only on this phone. Never shared, even when you share journal entries.</p>
+        <label class="field"><span>Last period started</span><input class="input" type="date" name="lastStart" id="st-last" value="${esc(c.lastStart)}"></label>
+        <div class="field-row">
+          <label class="field"><span>Usual cycle length (days)</span><input class="input" type="number" min="20" max="45" name="length" id="st-len" value="${esc(c.length)}"></label>
+          <label class="field"><span>Usual period length (days)</span><input class="input" type="number" min="2" max="10" name="period" id="st-per" value="${esc(c.period)}"></label>
+        </div>
+      </section>
+      <section class="section"><h2>Look &amp; feel</h2>
+        <div class="seg" role="group"><button type="button" data-act="seg" data-name="theme" data-val="night" aria-pressed="${s.theme === "night"}">Night</button><button type="button" data-act="seg" data-name="theme" data-val="day" aria-pressed="${s.theme === "day"}">Day</button><button type="button" data-act="seg" data-name="theme" data-val="system" aria-pressed="${s.theme === "system"}">Match phone</button></div>
+        <input type="hidden" name="theme" value="${esc(s.theme)}">
+        <label class="switch card" style="flex-direction:row"><span><b>Herb notes</b><br><span class="small muted">A new herb fact pops up when you open the app, up to every 3 hours.</span></span><input type="checkbox" name="tips" id="st-tips" ${s.tips ? "checked" : ""}></label>
+      </section>
+      <button class="btn primary block" type="submit">Save settings</button>
+    </form>
+
+    <section class="section"><h2>Backup &amp; moving phones</h2>
+      <p class="small muted">${counts}. Updates to the app never touch your data, but a backup protects you if you lose or change your phone.</p>
+      <div class="btn-row">${inIframe() ? "" : `<button class="btn" data-act="backup-file">Save backup file</button>`}<button class="btn" data-act="backup-copy">${icon("copy")}Copy backup</button></div>
+      <div class="card"><span class="label">Restore</span><p class="small muted">Choose a backup file, or paste a copied backup. It merges with what's here; nothing is deleted.</p>
+        <label class="btn">Choose backup file<input type="file" accept=".json,application/json,text/plain" hidden data-restore-file></label>
+        <textarea class="input code" id="restore-text" placeholder="…or paste a backup here"></textarea>
+        <button class="btn" data-act="restore-paste">Restore pasted backup</button></div>
+      <p class="small muted" id="persist-note"></p>
+    </section>
+
+    <section class="section"><h2>Install on your phone</h2>
+      <div class="card small">
+        <p><b>iPhone:</b> open this page in Safari, tap Share, then “Add to Home Screen”.${ios ? " Your saved data belongs to the home-screen app, separate from Safari, so add it first and then start using it." : ""}</p>
+        <p><b>Android:</b> open in Chrome, tap ⋮, then “Install app” or “Add to Home screen”.</p>
+        <p class="muted">Data is linked to the web address you install from. Keep using the same address, and take a backup before switching.</p>
+      </div>
+    </section>
+
+    <section class="section"><h2>About</h2>
+      <p class="small">Hedge &amp; Moon ${APP_VERSION}. Growing dates follow typical UK conditions. Evidence labels reflect published research and NHS/NICE guidance; science changes, so check trusted sources. This app isn't medical advice.</p>
+      <button class="btn ghost small" data-act="nav" data-to="truths">Read Herb truths</button>
+    </section>`;
+  },
+  async after() {
+    const note = document.getElementById("persist-note");
+    if (!note) return;
+    if (Store.memory) { note.textContent = "Saving is not available in this browser right now."; return; }
+    try {
+      const persisted = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : null;
+      note.textContent = persisted === true ? "Your phone has marked this app's data as protected from automatic clean-up." : persisted === false ? "Tip: installing to your home screen helps your phone keep this app's data safe." : "";
+    } catch (e) {}
+  }
+};
+
+/* ---------------- RECEIVE ---------------- */
+VIEWS.receive = {
+  tab: "", title: "Receive a share",
+  render(p) {
+    return `<section class="stack" style="gap:8px"><h1>Receive a share</h1>
+      <p class="muted">When a friend shares a recipe, method or journal entry, they send a message ending in a long code starting <code>HEDGE1:</code>. Copy the whole message, then paste it below.</p></section>
+      <textarea class="input code" id="recv-text" placeholder="Paste the message here">${esc(p.text || "")}</textarea>
+      <button class="btn primary block" data-act="recv-read">Read it</button>
+      <div id="recv-preview"></div>`;
+  }
+};
+
+/* ============================================================
+   SHARING
+   ============================================================ */
+function b64urlEncode(str) {
+  const bytes = new TextEncoder().encode(str); let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function b64urlDecode(s) {
+  s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "=";
+  const bin = atob(s); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+const SHARE_PREFIX = "HEDGE1:";
+const clip = (v, n) => String(v == null ? "" : v).slice(0, n);
+function cleanMake(d) {
+  const arr = (a, n) => Array.isArray(a) ? a.slice(0, 60).map(x => clip(x, n)) : [];
+  return {
+    title: clip(d.title, 120) || "Shared recipe", cat: CATS[d.cat] && d.cat !== "mine" ? d.cat : "kitchen", time: clip(d.time, 60),
+    herbs: arr(d.herbs, 30).filter(id => HERB[id]), pantry: arr(d.pantry, 30).filter(id => PANT[id]),
+    ingredients: arr(d.ingredients, 300), steps: arr(d.steps, 800), keeps: clip(d.keeps, 400), safety: clip(d.safety, 600), evnote: clip(d.evnote, 1200)
+  };
+}
+function cleanJournal(d) {
+  return {
+    title: clip(d.title, 160) || "Shared entry", type: J_TYPES.includes(d.type) ? d.type : "Experiment", date: /^\d{4}-\d{2}-\d{2}$/.test(d.date) ? d.date : todayISO(),
+    herbs: Array.isArray(d.herbs) ? d.herbs.filter(id => HERB[id] || PANT[id]).slice(0, 40) : [], did: clip(d.did, 4000), result: clip(d.result, 4000),
+    rating: Math.max(0, Math.min(5, parseInt(d.rating, 10) || 0)), again: clip(d.again, 40)
+  };
+}
+function readableMake(m) {
+  return [m.title.toUpperCase(), m.time ? `Time: ${m.time}` : "",
+    (m.ingredients || []).length ? "\nYou'll need:\n" + m.ingredients.map(i => "• " + i).join("\n") : "",
+    (m.steps || []).length ? "\nMethod:\n" + m.steps.map((s, i) => `${i + 1}. ${s}`).join("\n") : "",
+    m.keeps ? `\nKeeps: ${m.keeps}` : "", m.safety ? `Safety: ${m.safety}` : ""].filter(Boolean).join("\n");
+}
+async function shareText(title, text) {
+  if (navigator.share && !inIframe()) {
+    try { await navigator.share({ title, text }); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  let copied = false;
+  try { await navigator.clipboard.writeText(text); copied = true; } catch (e) {}
+  const sh = openSheet(`<h2>${copied ? "Copied" : "Copy this message"}</h2>
+    <p class="small muted">${copied ? "The share is on your clipboard. Paste it into Messages, WhatsApp or email. Your friend copies the whole message and pastes it into Receive in their app." : "Select all the text below, copy it, and send it to your friend. They paste it into Receive in their app."}</p>
+    <textarea class="input code" readonly id="share-out"></textarea>
+    <button class="btn primary block" data-close>Done</button>`);
+  const ta = sh.querySelector("#share-out"); ta.value = text;
+  if (!copied) { ta.focus(); ta.select(); }
+  sh.querySelector("[data-close]").onclick = closeSheet;
+}
+async function shareMake(id, mine) {
+  const mk = mine ? S.creations.find(c => c.id === id) : MAKE[id]; if (!mk) return;
+  const data = cleanMake(mk);
+  const payload = { k: "make", from: clip(S.settings.name, 40), d: data };
+  const text = `🌿 ${data.title}, shared from Hedge & Moon\n\n${readableMake(data)}\n\nTo add it to your app: copy this whole message, open Hedge & Moon, tap Receive and paste.\n${SHARE_PREFIX}${b64urlEncode(JSON.stringify(payload))}`;
+  await shareText(data.title, text);
+}
+async function shareJournal(id) {
+  const e = S.journal.find(x => x.id === id); if (!e) return;
+  const data = cleanJournal(e); // photo and cycle phase deliberately left out
+  const payload = { k: "journal", from: clip(S.settings.name, 40), d: data };
+  const text = `🌙 ${data.title}, from my Hedge & Moon journal\n\n${data.did ? "What I did: " + data.did + "\n" : ""}${data.result ? "How it went: " + data.result + "\n" : ""}${data.rating ? "★".repeat(data.rating) + "\n" : ""}\nTo save it in your app: copy this whole message, open Hedge & Moon, tap Receive and paste.\n${SHARE_PREFIX}${b64urlEncode(JSON.stringify(payload))}`;
+  await shareText(data.title, text);
+}
+function parseShare(text) {
+  const m = String(text || "").match(/HEDGE1:([A-Za-z0-9_-]+)/);
+  if (!m) throw new Error("No share code found. Make sure you copied the whole message, including the line starting HEDGE1:");
+  let obj;
+  try { obj = JSON.parse(b64urlDecode(m[1])); } catch (e) { throw new Error("The code looks cut off or changed. Ask your friend to share it again."); }
+  if (!obj || (obj.k !== "make" && obj.k !== "journal") || typeof obj.d !== "object") throw new Error("This isn't a Hedge & Moon share code.");
+  return { kind: obj.k, from: clip(obj.from, 40), data: obj.k === "make" ? cleanMake(obj.d) : cleanJournal(obj.d) };
+}
+
+/* ============================================================
+   BACKUP
+   ============================================================ */
+function backupJSON() {
+  return JSON.stringify({ app: "hedge-and-moon", appVersion: APP_VERSION, schema: SCHEMA_VERSION, exportedAt: new Date().toISOString(),
+    settings: S.settings, photos: S.photos, journal: S.journal, inventory: S.inventory, creations: S.creations });
+}
+async function restoreBackup(text) {
+  let b;
+  try { b = JSON.parse(text.trim()); } catch (e) { throw new Error("That doesn't look like a backup. Copy or choose the whole backup file."); }
+  if (!b || b.app !== "hedge-and-moon") throw new Error("That isn't a Hedge & Moon backup.");
+  if ((b.schema || 1) > SCHEMA_VERSION) throw new Error("This backup is from a newer version of the app. Update the app first, then restore.");
+  const data = { journal: b.journal || [], inventory: b.inventory || [], creations: b.creations || [], settings: b.settings || {} };
+  for (let v = (b.schema || 1) + 1; v <= SCHEMA_VERSION; v++) if (DATA_UPGRADES[v]) DATA_UPGRADES[v](data);
+  let added = 0, updated = 0;
+  for (const store of ["journal", "inventory", "creations"]) {
+    for (const rec of data[store]) {
+      if (!rec || typeof rec.id !== "string") continue;
+      const cur = S[store].find(x => x.id === rec.id);
+      if (!cur) { S[store].push(rec); await Store.put(store, rec); added++; }
+      else if ((rec.updatedAt || 0) > (cur.updatedAt || 0)) { Object.assign(cur, rec); await Store.put(store, cur); updated++; }
+    }
+  }
+  if (b.photos) { for (const k in b.photos) if (!S.photos[k] && HERB[k]) S.photos[k] = b.photos[k]; await savePhotos(); }
+  const s = data.settings;
+  if (!S.settings.name && s.name) S.settings.name = clip(s.name, 40);
+  if (!S.settings.cycle.lastStart && s.cycle && s.cycle.lastStart) S.settings.cycle = Object.assign(S.settings.cycle, s.cycle);
+  S.settings.onboarded = true;
+  await saveSettings();
+  return { added, updated };
+}
+
+/* ============================================================
+   PHOTOS
+   ============================================================ */
+function resizeImage(file, max) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg", 0.74));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That image couldn't be opened. Try a JPEG or PNG.")); };
+    img.src = url;
+  });
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+const ACTIONS = {
+  back,
+  tab: d => go(d.to, {}, { tab: true }),
+  nav: d => go(d.to, d.anchor ? { anchor: d.anchor } : {}),
+  herb: d => go("herb", { id: d.id }),
+  pantry: d => go("pantry", { id: d.id }),
+  make: d => go("makeDetail", { id: d.id, mine: d.mine === "1" }),
+  "herb-filter": d => { S.herbFilter = d.val; render(); },
+  "make-cat": d => { S.makeCat = d.val; S.makeQuery = ""; render(); },
+  "cal-month": d => { S.calMonth = +d.val; render(); },
+  "j-filter": d => { S.jHerb = d.val; render(); },
+  "store-filter": d => { S.storeFilter = d.val; render(); },
+  "next-tip": () => { S.tipOffset++; render(); },
+  "herb-photo-toggle": () => { S.view.params.showPhoto = S.view.params.showPhoto === false; render(); },
+  "herb-photo-remove": async d => { if (await confirmSheet("Remove your photo?", "The drawing will show instead.", "Remove", true)) { delete S.photos[d.id]; await savePhotos(); render(); } },
+  "period-today": async () => {
+    const c = S.settings.cycle, t = todayISO();
+    if (c.lastStart && c.lastStart !== t) c.history = [...(c.history || []), c.lastStart].slice(-24);
+    c.lastStart = t; await saveSettings(); toast("Logged. Cycle phases now count from today."); render();
+  },
+  "toggle-chip": (d, el) => { el.setAttribute("aria-pressed", el.getAttribute("aria-pressed") !== "true"); },
+  seg: (d, el) => {
+    el.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === el));
+    const form = el.closest("form"); const inp = form && form.querySelector(`input[name="${d.name}"]`);
+    if (inp) inp.value = d.val;
+    if (d.name === "profile") { const c = form.querySelector("[data-cycle]"); if (c) c.hidden = d.val !== "female"; }
+    if (d.name === "theme") { S.settings.theme = d.val; applyTheme(); }
+  },
+  star: (d, el) => {
+    const wrap = el.closest("[data-stars]"); const n = +d.val;
+    const inp = wrap.parentElement.querySelector('input[name="rating"]');
+    const val = +inp.value === n ? 0 : n; inp.value = val;
+    wrap.querySelectorAll("button").forEach(b => b.classList.toggle("on", +b.dataset.val <= val));
+  },
+  "photo-clear": (d, el) => {
+    const f = el.closest(".field"); f.querySelector('input[name="photo"]').value = ""; const im = f.querySelector("[data-preview]"); im.hidden = true; im.removeAttribute("src"); el.remove();
+  },
+  "journal-new": d => go("journalForm", { herb: d.herb, make: d.make, mine: d.mine === "1" }),
+  "journal-view": d => go("journalView", { id: d.id }),
+  "journal-edit": d => go("journalForm", { id: d.id }, { replace: true }),
+  "journal-delete": async d => {
+    if (!(await confirmSheet("Delete this entry?", "This can't be undone.", "Delete", true))) return;
+    S.journal = S.journal.filter(x => x.id !== d.id); await Store.del("journal", d.id); back();
+  },
+  "share-journal": d => shareJournal(d.id),
+  "share-make": d => shareMake(d.id, d.mine === "1"),
+  "creation-new": () => go("creationForm", {}),
+  "creation-edit": d => go("creationForm", { id: d.id }, { replace: true }),
+  "creation-copy": d => {
+    const mk = MAKE[d.id]; if (!mk) return;
+    go("creationForm", { draft: { ...cleanMake(mk), title: mk.title + " (my version)", evnote: "" } });
+  },
+  "creation-delete": async d => {
+    if (!(await confirmSheet("Delete this recipe?", "Journal entries that mention it are kept.", "Delete", true))) return;
+    S.creations = S.creations.filter(x => x.id !== d.id); await Store.del("creations", d.id); back();
+  },
+  "store-new": d => go("storeForm", { herb: d.herb }),
+  store: d => go("storeView", { id: d.id }),
+  "store-edit": d => go("storeForm", { id: d.id }, { replace: true }),
+  "store-delete": async d => {
+    if (!(await confirmSheet("Delete this item?", "Its usage log goes too.", "Delete", true))) return;
+    S.inventory = S.inventory.filter(x => x.id !== d.id); await Store.del("inventory", d.id); back();
+  },
+  "store-harvested": async d => {
+    const it = S.inventory.find(x => x.id === d.id); if (!it) return;
+    it.uses = [...(it.uses || []), { id: uid(), date: todayISO(), purpose: "Other", note: "Harvested" }];
+    it.lastHarvest = todayISO(); it.nextHarvest = addDays(todayISO(), 21); it.updatedAt = Date.now();
+    await Store.put("inventory", it); toast("Logged. Next harvest set for 3 weeks' time; edit to change it."); render();
+  },
+  "backup-copy": async () => {
+    const txt = backupJSON();
+    try { await navigator.clipboard.writeText(txt); toast("Backup copied. Paste it somewhere safe, like a note or an email to yourself."); }
+    catch (e) {
+      const sh = openSheet(`<h2>Copy your backup</h2><p class="small muted">Select all and copy, then keep it somewhere safe.</p><textarea class="input code" readonly id="bk-out"></textarea><button class="btn primary block" data-close>Done</button>`);
+      const ta = sh.querySelector("#bk-out"); ta.value = txt; ta.select(); sh.querySelector("[data-close]").onclick = closeSheet;
+    }
+  },
+  "backup-file": async () => {
+    const txt = backupJSON(), name = `hedge-and-moon-backup-${todayISO()}.json`;
+    try {
+      const file = new File([txt], name, { type: "application/json" });
+      if (navigator.canShare && navigator.canShare({ files: [file] }) && !inIframe()) { await navigator.share({ files: [file], title: "Hedge & Moon backup" }); return; }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    try {
+      const url = URL.createObjectURL(new Blob([txt], { type: "application/json" }));
+      const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      toast("If no file appeared, use Copy backup instead.");
+    } catch (e) { toast("Saving a file isn't allowed here. Use Copy backup instead."); }
+  },
+  "restore-paste": async () => {
+    const t = document.getElementById("restore-text").value;
+    try { const r = await restoreBackup(t); toast(`Restored: ${r.added} added, ${r.updated} updated.`); render(); }
+    catch (e) { toast(esc(e.message)); }
+  },
+  "recv-read": () => {
+    const box = document.getElementById("recv-preview");
+    try {
+      const sh = parseShare(document.getElementById("recv-text").value);
+      S.pendingShare = sh;
+      const d = sh.data;
+      box.innerHTML = `<div class="card"><span class="label">${sh.kind === "make" ? "Recipe or method" : "Journal entry"}${sh.from ? ` from ${esc(sh.from)}` : ""}</span><h2>${esc(d.title)}</h2>
+        ${sh.kind === "make" ? `<p class="small muted">${(d.ingredients || []).length} ingredients · ${(d.steps || []).length} steps${d.time ? " · " + esc(d.time) : ""}</p>` : `<p class="small muted">${esc(fmtDateY(d.date))}${d.rating ? " · " + "★".repeat(d.rating) : ""}</p>`}
+        <p class="small">Herbs and ideas from friends are a lovely way to learn. Check anything health-related against Herb truths before you try it.</p>
+        <button class="btn primary" data-act="recv-save">${sh.kind === "make" ? "Save to My makes" : "Save to my journal"}</button></div>`;
+    } catch (e) { box.innerHTML = `<div class="callout danger">${esc(e.message)}</div>`; }
+  },
+  "recv-save": async () => {
+    const sh = S.pendingShare; if (!sh) return;
+    const now = Date.now();
+    if (sh.kind === "make") {
+      const rec = { ...sh.data, id: uid(), from: sh.from || "a friend", createdAt: now, updatedAt: now };
+      S.creations.push(rec); await Store.put("creations", rec);
+      S.pendingShare = null; S.makeCat = "mine"; toast("Saved to My makes."); go("makeDetail", { id: rec.id, mine: true }, { replace: true });
+    } else {
+      const d = sh.data;
+      const rec = { ...d, id: uid(), title: d.title + (sh.from ? ` (from ${sh.from})` : ""), moon: moonInfo(parseISO(d.date)).name, cycle: "", createdAt: now, updatedAt: now };
+      S.journal.push(rec); await Store.put("journal", rec);
+      S.pendingShare = null; toast("Saved to your journal."); go("journalView", { id: rec.id }, { replace: true });
+    }
+  }
+};
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const a = ACTIONS[el.dataset.act];
+  if (!a) return;
+  if (el.tagName === "A" || el.type === "submit") e.preventDefault();
+  if (el.tagName === "BUTTON" && el.type !== "submit") e.preventDefault();
+  a(el.dataset, el);
+});
+
+document.addEventListener("change", async e => {
+  const t = e.target;
+  // photos
+  if (t.matches("input[type=file][data-photo]")) {
+    const file = t.files && t.files[0]; if (!file) return;
+    try {
+      const data = await resizeImage(file, 1100);
+      if (t.dataset.photo === "herb") { S.photos[t.dataset.id] = data; await savePhotos(); S.view.params.showPhoto = true; render(); toast("Photo saved."); }
+      else {
+        const f = t.closest(".field"); f.querySelector('input[name="photo"]').value = data;
+        const im = f.querySelector("[data-preview]"); im.src = data; im.hidden = false;
+      }
+    } catch (err) { toast(esc(err.message)); }
+    t.value = "";
+    return;
+  }
+  if (t.matches("input[type=file][data-restore-file]")) {
+    const file = t.files && t.files[0]; if (!file) return;
+    try { const r = await restoreBackup(await file.text()); toast(`Restored: ${r.added} added, ${r.updated} updated.`); render(); }
+    catch (err) { toast(esc(err.message)); }
+    t.value = ""; return;
+  }
+  // store form reactions
+  const form = t.closest('form[data-form="store"]');
+  if (form) {
+    if (t.name === "herb") form.querySelector("[data-custom]").hidden = t.value !== "";
+    if (t.name === "form" || t.name === "stored") {
+      const formSel = form.querySelector('[name="form"]').value;
+      const bb = form.querySelector('input[name="bestBefore"]'), days = shelfDays(formSel), st = form.querySelector('[name="stored"]').value;
+      const hint = form.querySelector("#sf-hint");
+      if (hint) hint.textContent = days ? `Suggested shelf life for ${formSel.toLowerCase()}: about ${days >= 60 ? Math.round(days / 30) + " months" : days + " days"}.` : "No set shelf life for this form.";
+      if (bb.dataset.auto === "1") bb.value = days && st ? addDays(st, days) : "";
+    }
+    if (t.name === "bestBefore") t.dataset.auto = "0";
+  }
+});
+
+document.addEventListener("submit", async e => {
+  const form = e.target; if (!form.dataset.form) return;
+  e.preventDefault();
+  const fd = new FormData(form), get = k => (fd.get(k) || "").toString().trim();
+  const now = Date.now();
+  switch (form.dataset.form) {
+    case "journal": {
+      const id = form.dataset.id;
+      const date = get("date") || todayISO();
+      const cs = cycleState(date);
+      const existing = id ? S.journal.find(x => x.id === id) : null;
+      const rec = Object.assign(existing || { id: uid(), createdAt: now, makeId: form.dataset.make || "", makeMine: form.dataset.mine === "1" }, {
+        date, type: get("type"), title: get("title"), herbs: pickerValues(form, "herbs"), did: get("did"), result: get("result"),
+        rating: +get("rating") || 0, again: get("again"), photo: get("photo"), moon: moonInfo(parseISO(date)).name,
+        cycle: cs ? cs.phase : (existing ? existing.cycle : ""), updatedAt: now
+      });
+      if (!existing) S.journal.push(rec);
+      await Store.put("journal", rec);
+      toast("Entry saved.");
+      go("journalView", { id: rec.id }, { replace: true });
+      break;
+    }
+    case "creation": {
+      const id = form.dataset.id;
+      const picked = pickerValues(form, "herbs");
+      const lines = k => get(k).split("\n").map(s => s.trim()).filter(Boolean);
+      const existing = id ? S.creations.find(x => x.id === id) : null;
+      const rec = Object.assign(existing || { id: uid(), createdAt: now, from: "" }, {
+        title: get("title"), cat: get("cat"), time: get("time"), herbs: picked.filter(x => HERB[x]), pantry: picked.filter(x => PANT[x]),
+        ingredients: lines("ingredients"), steps: lines("steps"), keeps: get("keeps"), safety: get("safety"), evnote: get("evnote"), updatedAt: now
+      });
+      if (!existing) S.creations.push(rec);
+      await Store.put("creations", rec);
+      S.makeCat = "mine"; toast("Saved to My makes.");
+      go("makeDetail", { id: rec.id, mine: true }, { replace: true });
+      break;
+    }
+    case "store": {
+      const id = form.dataset.id;
+      const herb = get("herb");
+      if (!herb && !get("custom")) { toast("Give it a name, or pick a herb from the list."); return; }
+      const existing = id ? S.inventory.find(x => x.id === id) : null;
+      const rec = Object.assign(existing || { id: uid(), createdAt: now, uses: [] }, {
+        herb, custom: herb ? "" : get("custom"), form: get("form"), amount: get("amount"), location: get("location"),
+        stored: get("stored"), bestBefore: get("bestBefore"), nextHarvest: get("nextHarvest"), notes: get("notes"), photo: get("photo"), updatedAt: now
+      });
+      if (!existing) S.inventory.push(rec);
+      await Store.put("inventory", rec);
+      toast("Saved to stores.");
+      go("storeView", { id: rec.id }, { replace: true });
+      break;
+    }
+    case "use": {
+      const it = S.inventory.find(x => x.id === form.dataset.id); if (!it) return;
+      it.uses = [...(it.uses || []), { id: uid(), date: get("date") || todayISO(), purpose: get("purpose"), note: get("note") }];
+      it.updatedAt = now;
+      await Store.put("inventory", it); toast("Use logged."); render();
+      break;
+    }
+    case "settings": {
+      const s = S.settings;
+      s.name = clip(get("name"), 40); s.profile = get("profile") === "male" ? "male" : "female";
+      s.theme = ["night", "day", "system"].includes(get("theme")) ? get("theme") : "night";
+      s.tips = !!fd.get("tips");
+      if (get("lastStart") !== s.cycle.lastStart && s.cycle.lastStart && get("lastStart")) s.cycle.history = [...(s.cycle.history || []), s.cycle.lastStart].slice(-24);
+      s.cycle.lastStart = get("lastStart");
+      s.cycle.length = Math.max(20, Math.min(45, parseInt(get("length"), 10) || 28));
+      s.cycle.period = Math.max(2, Math.min(10, parseInt(get("period"), 10) || 5));
+      await saveSettings(); applyTheme(); toast("Settings saved."); render();
+      break;
+    }
+    case "onboard": {
+      const s = S.settings;
+      s.name = clip(get("name"), 40); s.profile = get("profile") === "male" ? "male" : "female"; s.onboarded = true;
+      await saveSettings(); closeSheet(); render(); maybeShowTip();
+      break;
+    }
+  }
+});
+
+document.addEventListener("input", e => {
+  if (e.target.matches('form[data-form="store"] input[name="bestBefore"]')) e.target.dataset.auto = "0";
+});
+
+/* ============================================================
+   START
+   ============================================================ */
+function onboard() {
+  const sh = openSheet(`<form class="stack" data-form="onboard" style="gap:14px">
+    <div class="row" style="gap:12px">${BRAND.replace('class="brand-mark"', 'class="brand-mark" style="width:44px;height:44px"')}<h2>Welcome to Hedge &amp; Moon</h2></div>
+    <p>A pocket herbal for growing, making and noticing: a UK herb calendar, recipes for one, a journal, and your stores. The health information here is evidence-checked and honest.</p>
+    <label class="field"><span>What should we call you?</span><input class="input" name="name" id="ob-name" placeholder="Your name (optional)"></label>
+    <div class="field"><span>Profile</span><div class="seg" role="group"><button type="button" data-act="seg" data-name="profile" data-val="female" aria-pressed="true">Female</button><button type="button" data-act="seg" data-name="profile" data-val="male" aria-pressed="false">Male</button></div>
+      <input type="hidden" name="profile" value="female"><span class="small muted">Female adds menstrual cycle phases. You can change this any time in Settings.</span></div>
+    <p class="small muted">Everything you add stays on this phone. Nothing is uploaded anywhere.</p>
+    <button class="btn primary block" type="submit">Begin</button>
+  </form>`);
+  document.getElementById("scrim").dataset.locked = "1";
+  return sh;
+}
+
+async function start() {
+  await Store.open();
+  try { await loadAll(); } catch (e) { console.warn(e); }
+  applyTheme();
+  render(true);
+  if (!S.settings.onboarded) onboard(); else maybeShowTip();
+  if (S.updated) toast(`Updated to version ${esc(APP_VERSION)}. Your journal, stores and makes are all still here.`, { timeout: 6000 });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { maybeShowTip(); if (S.view.name === "today") render(); } });
+  try { if (navigator.storage && navigator.storage.persist && !Store.memory) navigator.storage.persist(); } catch (e) {}
+  if ("serviceWorker" in navigator && !inIframe() && location.protocol === "https:") {
+    try {
+      const hadController = !!navigator.serviceWorker.controller;
+      await navigator.serviceWorker.register("sw.js");
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (hadController) toast(`A new version is ready. <button class="btn small" onclick="location.reload()">Reload</button>`, { timeout: 15000 });
+      });
+    } catch (e) { console.warn("Offline support unavailable:", e); }
+  }
+}
+start();
+
+</script>
+</body>
+</html>
